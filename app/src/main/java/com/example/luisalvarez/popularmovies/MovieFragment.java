@@ -45,9 +45,7 @@ public class MovieFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         posterGrid = (GridView)rootView.findViewById(R.id.grid_movie_layout);
         MovieFetcher m = new MovieFetcher();
-        Log.d("output", "init 1");
         m.execute();
-
         return rootView;
     }
 
@@ -55,16 +53,13 @@ public class MovieFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String[] jsonArrayAsStringResult) {
-            posterUrlFooters=jsonArrayAsStringResult;
-            ArrayList<String> arrayList = new ArrayList<>();
-
-           for(int i=0;i<posterUrlFooters.length;i++) {
-               List<String> list = Arrays.asList(jsonArrayAsStringResult[i].split("\\|"));
-               arrayList.add(list.get(3));
-           }
-
-
-            posterGrid.setAdapter(new PosterImageAdapter(getActivity(),arrayList));
+//            ArrayList<String> arrayList = new ArrayList<String>();
+//
+//           for(int i=0;i<posterUrlFooters.length;i++) {
+//               List<String> list = Arrays.asList(jsonArrayAsStringResult[i].split("\\|"));
+//               arrayList.add(list.get(3));
+//           }
+            posterGrid.setAdapter(new PosterImageAdapter(getActivity(),jsonArrayAsStringResult));
 
         }
 
@@ -106,7 +101,6 @@ public class MovieFragment extends Fragment {
                 StringBuffer jsonIncomingBuffer = new StringBuffer();
                 //return null if the inputstream sees nothing
                 if (inStream == null) {
-                    Log.d("output", "Null inputstream");
                     return null;
                 }
 
@@ -124,9 +118,7 @@ public class MovieFragment extends Fragment {
                 //toString on the output StringBuffer
                 //This is the line holding the ouput of the JSON
                 moviesJsonOutput = jsonIncomingBuffer.toString();
-                Log.d("output", moviesJsonOutput);
             } catch (IOException e) {
-                Log.d("output", e.getMessage());
                 return null;
             } finally {
                 if (httpQueryConnection != null) {
@@ -137,7 +129,6 @@ public class MovieFragment extends Fragment {
                         reader.close();
                     } catch (final IOException e) {
                         e.printStackTrace();
-                        Log.d("output", e.getMessage());
                     }
                 }
             }
@@ -175,12 +166,9 @@ public class MovieFragment extends Fragment {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-
             if (resultJsonArray != null) {
                 return resultJsonArray;
             } else {
-                Log.d("output", "NULL ARRAY DOINBACKFROUND");
                 return null;
             }
         }
