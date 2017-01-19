@@ -53,14 +53,7 @@ public class MovieFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String[] jsonArrayAsStringResult) {
-//            ArrayList<String> arrayList = new ArrayList<String>();
-//
-//           for(int i=0;i<posterUrlFooters.length;i++) {
-//               List<String> list = Arrays.asList(jsonArrayAsStringResult[i].split("\\|"));
-//               arrayList.add(list.get(3));
-//           }
             posterGrid.setAdapter(new PosterImageAdapter(getActivity(),jsonArrayAsStringResult));
-
         }
 
         @Override
@@ -136,6 +129,71 @@ public class MovieFragment extends Fragment {
             return stringToJSONArray(moviesJsonOutput);
         }
 
+        private String genreKeytoName(String x){
+            switch(x){
+                case "28":
+                    x="Action";
+                    break;
+                case "12":
+                    x="Adventure";
+                    break;
+                case "16":
+                    x="Animation";
+                    break;
+                case "35":
+                    x="Comedy";
+                    break;
+                case "80":
+                    x="Crime";
+                    break;
+                case "99":
+                    x="Documentary";
+                    break;
+                case "18":
+                    x="Drama";
+                    break;
+                case "10751":
+                    x="Family";
+                    break;
+                case "14":
+                    x="Fantasy";
+                    break;
+                case "36":
+                    x="History";
+                    break;
+                case "27":
+                    x="Horror";
+                    break;
+                case "10402":
+                    x="Music";
+                    break;
+                case "9648":
+                    x="Mystery";
+                    break;
+                case "10749":
+                    x="Romance";
+                    break;
+                case "878":
+                    x="Science Fiction";
+                    break;
+                case "10770":
+                    x="TV Movie";
+                    break;
+                case "53":
+                    x="Thriller";
+                    break;
+                case "10752":
+                    x="War";
+                    break;
+                case "37":
+                    x="Western";
+                    break;
+                default:
+                    x="";
+            }
+            return x;
+        }
+
         private String[] stringToJSONArray(String jsonString) {
             String[] resultJsonArray = null;
             final String JSON_GET_BACKDROP = "backdrop_path";
@@ -144,22 +202,39 @@ public class MovieFragment extends Fragment {
             final String JSON_GET_VOTES = "vote_average";
             final String JSON_GET_THUMBNAIL = "poster_path";
             final String JSON_GET_RELEASE = "release_date";
+            final String JSON_GET_MOVIE_ID = "id";
+            final String JSON_GET_GENRES = "genre_ids";
+
             try {
                 JSONObject jsonMovieInput = new JSONObject(jsonString);
                 JSONArray jsonMovieInnerArray = jsonMovieInput.getJSONArray("results");
+
+
                 resultJsonArray = new String[jsonMovieInnerArray.length()];
                 for (int i = 0; i < jsonMovieInnerArray.length(); i++) {
                     //   Log.d("output",i+ "    " + jsonMovieInnerArray.get(i).toString());
+
                     JSONObject innerJSONIterator = jsonMovieInnerArray.getJSONObject(i);
                     String title = innerJSONIterator.getString(JSON_GET_TITLE);
-                    //String order = title,release,vote_average, thumbnail, plot, backdrop
+                    JSONArray genreArray = innerJSONIterator.getJSONArray(JSON_GET_GENRES);
+                    String genresString ="";
+                    for(int j=0;j<genreArray.length();j++){
+                        if(j==0) {
+                            genresString = genreKeytoName(genreArray.getString(j));
+                        }else if(j>0){
+                            genresString = genresString+", "+genreKeytoName(genreArray.getString(j));
+                        }
+                    }
+                    //String order = title,release,vote_average, thumbnail, plot, backdrop,id
                     String jsonToStringWithCommas =
                             innerJSONIterator.getString(JSON_GET_TITLE) + "|" +
                                     innerJSONIterator.getString(JSON_GET_RELEASE) + "|" +
                                     innerJSONIterator.getString(JSON_GET_VOTES) + "|" +
                                     innerJSONIterator.getString(JSON_GET_THUMBNAIL) + "|" +
-                                    innerJSONIterator.getString(JSON_GET_PLOT) + "|" +
-                                    innerJSONIterator.getString(JSON_GET_BACKDROP);
+                                    (innerJSONIterator.getString(JSON_GET_PLOT)) + "|" +
+                                    innerJSONIterator.getString(JSON_GET_BACKDROP)+ "|" +
+                                    innerJSONIterator.getString(JSON_GET_MOVIE_ID)+ "|" +
+                                    genresString;
 //                    Log.d("output",i+ "    " +jsonToStringWithCommas);
                     resultJsonArray[i] = jsonToStringWithCommas;
                 }

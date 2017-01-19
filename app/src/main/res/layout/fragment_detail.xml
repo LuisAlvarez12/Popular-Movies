@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:fillViewport="true"
+    android:background="@color/bg_grey"
+    android:layout_height="match_parent">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.6"
+        android:elevation="5dp"
+        >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:elevation="10dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/img_backdrop"/>
+    </RelativeLayout>
+
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/white_rounded_corners"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:elevation="10dp"
+        android:id="@+id/tv_movie_title"
+        android:textSize="30sp"
+        />
+
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+        android:background="@drawable/white_rounded_corners"
+        android:layout_margin="10dp"
+        android:elevation="7dp"
+            android:layout_weight="0.4"
+            android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <View
+                android:id="@+id/divider"
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:visibility="invisible"
+                android:layout_centerHorizontal="true"/>
+
+            <ImageView
+                android:id="@+id/posterview"
+                android:layout_width="match_parent"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="40dp"
+               android:layout_marginLeft="5dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@+id/divider"
+                android:src="@drawable/placeholder"
+                />
+
+            <LinearLayout
+                android:id="@+id/lin_cast_holder"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@+id/divider"
+                android:layout_margin="10dp"
+
+                >
+
+                <TextView
+                    android:text="Release Date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/label_release_date" />
+                <TextView
+                    android:text=""
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_release_date"
+                    android:textSize="20sp" />
+                <TextView
+                    android:text="TextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/label_director" />
+
+                <TextView
+                    android:text="TextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_director"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:text="Genres"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/label_genres" />
+                <TextView
+                    android:text="TextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_genres"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:text="Vote Average"
+                    android:layout_marginTop="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/label_vote_average"
+                    android:gravity="center_horizontal"
+                    android:textSize="20dp" />
+                <TextView
+                    android:text=""
+                    android:layout_marginTop="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:id="@+id/tv_vote_average"
+                    android:textSize="28dp" />
+            </LinearLayout>
+        </RelativeLayout>
+        </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:elevation="10dp"
+        android:background="@drawable/white_rounded_corners"
+        android:layout_margin="10dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="22sp"
+            android:text="Plot Overview"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:id="@+id/tv_overview"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            />
+
+
+    </LinearLayout>
+</LinearLayout>
+
+    </ScrollView>
+
