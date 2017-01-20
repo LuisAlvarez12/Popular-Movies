@@ -73,7 +73,7 @@ public class PosterImageAdapter extends BaseAdapter {
         Picasso.with(mContext) //
                 .load(URL_POSTER_HEADER + list.get(3)) //
                 .placeholder(R.drawable.placeholder) //
-                .error(R.drawable.error) //
+                .error(R.drawable.redback) //
                 .fit() //
                 .into(h.img);
         rowView.setOnClickListener(new View.OnClickListener() {
@@ -88,19 +88,3 @@ public class PosterImageAdapter extends BaseAdapter {
     }
 
 }
-
-
-//        ImageView imageView = (ImageView)convertView;
-//        if (imageView == null){
-//            imageView=new ImageView(mContext);
-//
-//        }
-//
-//        Object image = (String)getItem(position);
-//        Picasso.with(mContext) //
-//                .load(URL_POSTER_HEADER + image) //
-//                .placeholder(R.drawable.placeholder) //
-//                .error(R.drawable.error) //
-//                .fit() //
-//                .into(imageView);
-//        return imageView;

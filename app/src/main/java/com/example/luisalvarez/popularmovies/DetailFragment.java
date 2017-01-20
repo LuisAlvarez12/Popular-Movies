@@ -1,6 +1,6 @@
 package com.example.luisalvarez.popularmovies;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -27,6 +27,7 @@ import static android.R.id.list;
 
 public class DetailFragment extends Fragment {
 
+    //image URL start
     private final String URL_POSTER_HEADER = "https://image.tmdb.org/t/p/w500";
     private ImageView img_backdrop,img_poster;
     private TextView tv_plot_overview,tv_title,tv_vote_average,tv_release,tv_genres;
@@ -39,11 +40,45 @@ public class DetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
-
         Intent getMovieInfo = getActivity().getIntent();
-        //1. Name, 2. Date, 3. Vote average, 4. Poster thumbnail, 5. Plot Analysis, 6. backdrop
+        //get list passed from intent
         ArrayList<String> movieList = getMovieInfo.getStringArrayListExtra("moviedata");
+        //set action bar title to movie title
         getActivity().setTitle(movieList.get(0));
+        viewInstantiator(rootView);
+        fillRootView(movieList);
+        return rootView;
+    }
+
+    private void fillRootView(ArrayList<String> movieList) {
+        //1. Name, 2. Date, 3. Vote average, 4. Poster thumbnail, 5. Plot Analysis, 6. backdrop
+        Picasso.with(getActivity())
+                .load(URL_POSTER_HEADER + movieList.get(5))
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.error)
+                .fit()
+                .into(img_backdrop);
+
+        Picasso.with(getActivity())
+                .load(URL_POSTER_HEADER + movieList.get(3))
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.error)
+                .fit()
+                .into(img_poster);
+        //plot overview
+        tv_plot_overview.setText(movieList.get(4));
+        //movie title
+        tv_title.setText(movieList.get(0));
+        //vote average
+        tv_vote_average.setText(movieList.get(2));
+        //release date
+        tv_release.setText(dateFormatter(movieList.get(1)));
+        //genres
+        tv_genres.setText(movieList.get(7));
+    }
+
+    //views from rootview
+    private void viewInstantiator(View rootView) {
         img_backdrop = (ImageView)rootView.findViewById(R.id.img_backdrop);
         img_poster = (ImageView)rootView.findViewById(R.id.posterview);
         tv_plot_overview=(TextView)rootView.findViewById(R.id.tv_overview);
@@ -51,30 +86,10 @@ public class DetailFragment extends Fragment {
         tv_vote_average = (TextView)rootView.findViewById(R.id.tv_vote_average);
         tv_release = (TextView)rootView.findViewById(R.id.tv_release_date);
         tv_genres = (TextView)rootView.findViewById(R.id.tv_genres);
-
-        Picasso.with(getActivity()) //
-                .load(URL_POSTER_HEADER + movieList.get(5)) //
-                .placeholder(R.drawable.placeholder) //
-                .error(R.drawable.error) //
-                .fit()
-                .into(img_backdrop);
-
-        Picasso.with(getActivity()) //
-                .load(URL_POSTER_HEADER + movieList.get(3)) //
-                .placeholder(R.drawable.placeholder) //
-                .error(R.drawable.error) //
-                .fit()
-                .into(img_poster);
-
-        tv_plot_overview.setText(movieList.get(4));
-        tv_title.setText(movieList.get(0));
-        tv_vote_average.setText(movieList.get(2));
-        tv_release.setText(dateFormatter(movieList.get(1)));
-        tv_genres.setText(movieList.get(7));
-
-        return rootView;
     }
 
+
+    //takes in numbered month from json date and converts to a worded version with proper format
     private String dateFormatter(String x){
         List<String> seperatedString = Arrays.asList(x.split("\\-"));
         switch (seperatedString.get(1)){
@@ -121,17 +136,4 @@ public class DetailFragment extends Fragment {
         return completedString;
     }
 
-
-        public class ImageDetailLoader extends AsyncTask<String,Void,String>{
-
-        @Override
-        protected String doInBackground(String... params) {
-            Picasso.with(getActivity()) //
-                    .load(URL_POSTER_HEADER + params) //
-                    .placeholder(R.drawable.placeholder) //
-                    .error(R.drawable.error) //
-                    .into(img_backdrop);
-            return "a";
-        }
-    }
 }

@@ -1,16 +1,14 @@
 package com.example.luisalvarez.popularmovies;
 
-import android.app.Fragment;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
-import android.widget.ListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,11 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.URI;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by luisalvarez on 1/14/17.
@@ -35,11 +29,17 @@ public class MovieFragment extends Fragment {
 
     private String[] posterUrlFooters;
     private GridView posterGrid;
+    String sortOrder;
 
     public MovieFragment() {
 
+
     }
 
+    public MovieFragment(String s) {
+        sortOrder=s;
+
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
@@ -49,8 +49,10 @@ public class MovieFragment extends Fragment {
         return rootView;
     }
 
-    public class MovieFetcher extends AsyncTask<String, Void, String[]> {
 
+
+
+    public class MovieFetcher extends AsyncTask<String, Void, String[]> {
         @Override
         protected void onPostExecute(String[] jsonArrayAsStringResult) {
             posterGrid.setAdapter(new PosterImageAdapter(getActivity(),jsonArrayAsStringResult));
@@ -69,19 +71,21 @@ public class MovieFragment extends Fragment {
 
             try {
                 //query url builder
-                final String URL_BASE = "https://api.themoviedb.org/3/movie/popular?";
+                //popular?
+                final String URL_BASE = "https://api.themoviedb.org/3/movie/"+sortOrder+"?";
                 final String URL_LANGUAGE = "language";
                 final String URL_PAGE = "page";
                 final String URL_KEY = "api_key";
 
                 //uri build
                 Uri builtUri = Uri.parse(URL_BASE).buildUpon()
-                        .appendQueryParameter(URL_KEY, "e10725c4a50b8f4e6c04c49461910360")
+                        .appendQueryParameter(URL_KEY, BuildConfig.Movie_DB_key)
                         .appendQueryParameter(URL_LANGUAGE, "en-US")
                         .appendQueryParameter(URL_PAGE, "1")
                         .build();
                 //URL getting the output from the built URI
                 URL query = new URL(builtUri.toString());
+
 
                 //Open the connection
                 httpQueryConnection = (HttpURLConnection) query.openConnection();
@@ -90,13 +94,11 @@ public class MovieFragment extends Fragment {
 
                 //Inputstream gets the flowing data from the http connection and stores it to be buffered out
                 InputStream inStream = httpQueryConnection.getInputStream();
-
                 StringBuffer jsonIncomingBuffer = new StringBuffer();
                 //return null if the inputstream sees nothing
                 if (inStream == null) {
                     return null;
                 }
-
                 reader = new BufferedReader(new InputStreamReader(inStream));
                 //String to recieve each line from the bufferedreader as a holder
                 String line;
@@ -129,6 +131,7 @@ public class MovieFragment extends Fragment {
             return stringToJSONArray(moviesJsonOutput);
         }
 
+        //recieves genre id, converts to given value, and returns worded version
         private String genreKeytoName(String x){
             switch(x){
                 case "28":
@@ -208,14 +211,11 @@ public class MovieFragment extends Fragment {
             try {
                 JSONObject jsonMovieInput = new JSONObject(jsonString);
                 JSONArray jsonMovieInnerArray = jsonMovieInput.getJSONArray("results");
-
-
                 resultJsonArray = new String[jsonMovieInnerArray.length()];
                 for (int i = 0; i < jsonMovieInnerArray.length(); i++) {
-                    //   Log.d("output",i+ "    " + jsonMovieInnerArray.get(i).toString());
-
                     JSONObject innerJSONIterator = jsonMovieInnerArray.getJSONObject(i);
                     String title = innerJSONIterator.getString(JSON_GET_TITLE);
+                    //following will loop through all possible genres to be converted into words instead of id keys
                     JSONArray genreArray = innerJSONIterator.getJSONArray(JSON_GET_GENRES);
                     String genresString ="";
                     for(int j=0;j<genreArray.length();j++){
@@ -225,7 +225,7 @@ public class MovieFragment extends Fragment {
                             genresString = genresString+", "+genreKeytoName(genreArray.getString(j));
                         }
                     }
-                    //String order = title,release,vote_average, thumbnail, plot, backdrop,id
+                    //String order = title,release,vote_average, thumbnail, plot, backdrop,id,genres
                     String jsonToStringWithCommas =
                             innerJSONIterator.getString(JSON_GET_TITLE) + "|" +
                                     innerJSONIterator.getString(JSON_GET_RELEASE) + "|" +
@@ -235,8 +235,7 @@ public class MovieFragment extends Fragment {
                                     innerJSONIterator.getString(JSON_GET_BACKDROP)+ "|" +
                                     innerJSONIterator.getString(JSON_GET_MOVIE_ID)+ "|" +
                                     genresString;
-//                    Log.d("output",i+ "    " +jsonToStringWithCommas);
-                    resultJsonArray[i] = jsonToStringWithCommas;
+                            resultJsonArray[i] = jsonToStringWithCommas;
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -248,4 +247,5 @@ public class MovieFragment extends Fragment {
             }
         }
     }
+
 }

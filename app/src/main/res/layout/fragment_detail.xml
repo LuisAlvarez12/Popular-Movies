@@ -62,7 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_marginTop="40dp"
                 android:layout_marginBottom="40dp"
-               android:layout_marginLeft="5dp"
+               android:layout_marginLeft="10dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_toLeftOf="@+id/divider"
@@ -82,6 +82,7 @@
 
                 <TextView
                     android:text="Release Date"
+                    android:layout_marginTop="30dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/label_release_date" />
@@ -92,17 +93,20 @@
                     android:id="@+id/tv_release_date"
                     android:textSize="20sp" />
                 <TextView
-                    android:text="TextView"
+                    android:text="Cast and Crew"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/label_director" />
 
                 <TextView
-                    android:text="TextView"
+                    android:text="View All Cast and Crew ►"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/tv_director"
+                    android:textColor="@color/link_color"
+                    android:layout_marginRight="20dp"
                     android:textSize="20sp" />
+
 
                 <TextView
                     android:text="Genres"
@@ -126,7 +130,6 @@
                     android:textSize="20dp" />
                 <TextView
                     android:text=""
-                    android:layout_marginTop="12dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
