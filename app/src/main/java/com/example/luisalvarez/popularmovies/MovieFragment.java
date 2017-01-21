@@ -28,11 +28,11 @@ import java.net.URL;
 public class MovieFragment extends Fragment {
 
     private String[] posterUrlFooters;
+    private int[] pageIncrementor = {1,1,1};
     private GridView posterGrid;
     String sortOrder;
 
     public MovieFragment() {
-
 
     }
 
@@ -49,13 +49,27 @@ public class MovieFragment extends Fragment {
         return rootView;
     }
 
-
-
-
     public class MovieFetcher extends AsyncTask<String, Void, String[]> {
         @Override
         protected void onPostExecute(String[] jsonArrayAsStringResult) {
             posterGrid.setAdapter(new PosterImageAdapter(getActivity(),jsonArrayAsStringResult));
+        }
+
+        //returns the current page for fetching more pages of information
+        private String returnCurrentPage(){
+            String fin="";
+            switch (sortOrder){
+                case "popular":
+                     fin=""+pageIncrementor[0];
+                    break;
+                case "top_rated":
+                     fin=""+pageIncrementor[1];
+                break;
+                case "upcoming":
+                     fin=""+pageIncrementor[2];
+                break;
+            }
+            return fin;
         }
 
         @Override
@@ -81,7 +95,7 @@ public class MovieFragment extends Fragment {
                 Uri builtUri = Uri.parse(URL_BASE).buildUpon()
                         .appendQueryParameter(URL_KEY, BuildConfig.Movie_DB_key)
                         .appendQueryParameter(URL_LANGUAGE, "en-US")
-                        .appendQueryParameter(URL_PAGE, "1")
+                        .appendQueryParameter(URL_PAGE, ""+returnCurrentPage())
                         .build();
                 //URL getting the output from the built URI
                 URL query = new URL(builtUri.toString());
@@ -134,65 +148,26 @@ public class MovieFragment extends Fragment {
         //recieves genre id, converts to given value, and returns worded version
         private String genreKeytoName(String x){
             switch(x){
-                case "28":
-                    x="Action";
-                    break;
-                case "12":
-                    x="Adventure";
-                    break;
-                case "16":
-                    x="Animation";
-                    break;
-                case "35":
-                    x="Comedy";
-                    break;
-                case "80":
-                    x="Crime";
-                    break;
-                case "99":
-                    x="Documentary";
-                    break;
-                case "18":
-                    x="Drama";
-                    break;
-                case "10751":
-                    x="Family";
-                    break;
-                case "14":
-                    x="Fantasy";
-                    break;
-                case "36":
-                    x="History";
-                    break;
-                case "27":
-                    x="Horror";
-                    break;
-                case "10402":
-                    x="Music";
-                    break;
-                case "9648":
-                    x="Mystery";
-                    break;
-                case "10749":
-                    x="Romance";
-                    break;
-                case "878":
-                    x="Science Fiction";
-                    break;
-                case "10770":
-                    x="TV Movie";
-                    break;
-                case "53":
-                    x="Thriller";
-                    break;
-                case "10752":
-                    x="War";
-                    break;
-                case "37":
-                    x="Western";
-                    break;
-                default:
-                    x="";
+                case "28":x="Action";break;
+                case "12":x="Adventure";break;
+                case "16":x="Animation";break;
+                case "35":x="Comedy";break;
+                case "80":x="Crime";break;
+                case "99":x="Documentary";break;
+                case "18":x="Drama";break;
+                case "10751":x="Family";break;
+                case "14":x="Fantasy";break;
+                case "36":x="History";break;
+                case "27":x="Horror";break;
+                case "10402":x="Music";break;
+                case "9648":x="Mystery";break;
+                case "10749":x="Romance";break;
+                case "878":x="Science Fiction";break;
+                case "10770":x="TV Movie";break;
+                case "53":x="Thriller";break;
+                case "10752":x="War";break;
+                case "37":x="Western";break;
+                default:x="";
             }
             return x;
         }

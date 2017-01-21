@@ -30,7 +30,7 @@ public class DetailFragment extends Fragment {
     //image URL start
     private final String URL_POSTER_HEADER = "https://image.tmdb.org/t/p/w500";
     private ImageView img_backdrop,img_poster;
-    private TextView tv_plot_overview,tv_title,tv_vote_average,tv_release,tv_genres;
+    private TextView tv_plot_overview,tv_title,tv_vote_average,tv_release,tv_genres,tv_cast;
 
     public DetailFragment(){
 
@@ -42,11 +42,19 @@ public class DetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
         Intent getMovieInfo = getActivity().getIntent();
         //get list passed from intent
-        ArrayList<String> movieList = getMovieInfo.getStringArrayListExtra("moviedata");
+        final ArrayList<String> movieList = getMovieInfo.getStringArrayListExtra("moviedata");
         //set action bar title to movie title
         getActivity().setTitle(movieList.get(0));
         viewInstantiator(rootView);
         fillRootView(movieList);
+        tv_cast.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent castActivity = new Intent(getActivity(),CastCrewView.class);
+                castActivity.putExtra("movie_id",movieList.get(6));
+                startActivity(castActivity);
+            }
+        });
         return rootView;
     }
 
@@ -54,14 +62,14 @@ public class DetailFragment extends Fragment {
         //1. Name, 2. Date, 3. Vote average, 4. Poster thumbnail, 5. Plot Analysis, 6. backdrop
         Picasso.with(getActivity())
                 .load(URL_POSTER_HEADER + movieList.get(5))
-                .placeholder(R.drawable.placeholder)
+                .placeholder(R.drawable.placeholder_red)
                 .error(R.drawable.error)
                 .fit()
                 .into(img_backdrop);
 
         Picasso.with(getActivity())
                 .load(URL_POSTER_HEADER + movieList.get(3))
-                .placeholder(R.drawable.placeholder)
+                .placeholder(R.drawable.placeholder_red)
                 .error(R.drawable.error)
                 .fit()
                 .into(img_poster);
@@ -75,6 +83,7 @@ public class DetailFragment extends Fragment {
         tv_release.setText(dateFormatter(movieList.get(1)));
         //genres
         tv_genres.setText(movieList.get(7));
+
     }
 
     //views from rootview
@@ -86,6 +95,8 @@ public class DetailFragment extends Fragment {
         tv_vote_average = (TextView)rootView.findViewById(R.id.tv_vote_average);
         tv_release = (TextView)rootView.findViewById(R.id.tv_release_date);
         tv_genres = (TextView)rootView.findViewById(R.id.tv_genres);
+        tv_cast =(TextView)rootView.findViewById(R.id.tv_cast);
+
     }
 
 

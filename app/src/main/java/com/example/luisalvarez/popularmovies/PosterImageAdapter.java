@@ -72,8 +72,8 @@ public class PosterImageAdapter extends BaseAdapter {
         h.tv.setText(list.get(0));
         Picasso.with(mContext) //
                 .load(URL_POSTER_HEADER + list.get(3)) //
-                .placeholder(R.drawable.placeholder) //
-                .error(R.drawable.redback) //
+                .placeholder(R.drawable.placeholder_red) //
+                .error(R.drawable.error) //
                 .fit() //
                 .into(h.img);
         rowView.setOnClickListener(new View.OnClickListener() {

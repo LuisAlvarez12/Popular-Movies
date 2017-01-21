@@ -102,7 +102,7 @@
                     android:text="View All Cast and Crew ►"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/tv_director"
+                    android:id="@+id/tv_cast"
                     android:textColor="@color/link_color"
                     android:layout_marginRight="20dp"
                     android:textSize="20sp" />
