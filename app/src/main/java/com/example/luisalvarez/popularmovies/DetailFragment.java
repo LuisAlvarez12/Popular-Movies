@@ -65,14 +65,14 @@ public class DetailFragment extends Fragment {
         Picasso.with(getActivity())
                 .load(URL_POSTER_HEADER + movieList.get(5))
                 .placeholder(R.drawable.placeholder_red)
-                .error(R.drawable.error)
+                .error(R.drawable.error_no_img_found)
                 .fit()
                 .into(img_backdrop);
 
         Picasso.with(getActivity())
                 .load(URL_POSTER_HEADER + movieList.get(3))
                 .placeholder(R.drawable.placeholder_red)
-                .error(R.drawable.error)
+                .error(R.drawable.error_no_img_found)
                 .fit()
                 .into(img_poster);
         //plot overview

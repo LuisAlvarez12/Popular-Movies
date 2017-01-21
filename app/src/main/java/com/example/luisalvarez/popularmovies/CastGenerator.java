@@ -1,14 +1,10 @@
 package com.example.luisalvarez.popularmovies;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +28,6 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
-import static android.R.id.list;
 import static android.media.CamcorderProfile.get;
 
 /**
@@ -41,7 +36,9 @@ import static android.media.CamcorderProfile.get;
 
 public class CastGenerator extends android.support.v4.app.Fragment {
 
+    //Cast/crew listview
     private ListView castList;
+    //image url header
     private final String URL_POSTER_HEADER = "https://image.tmdb.org/t/p/w500";
     public CastGenerator() {
 
@@ -64,7 +61,6 @@ public class CastGenerator extends android.support.v4.app.Fragment {
 
         @Override
         protected void onPostExecute(String[] s) {
-            Log.d("layout",s[0]);
             CastListAdapter listAdapter = new CastListAdapter(getActivity(),R.layout.listview_item_layout,s);
             castList.setAdapter(listAdapter);
 
@@ -93,7 +89,6 @@ public class CastGenerator extends android.support.v4.app.Fragment {
                         .build();
                 //URL getting the output from the built URI
                 URL query = new URL(builtUri.toString());
-                Log.d("cast", builtUri.toString());
 
                 //Open the connection
                 httpQueryConnection = (HttpURLConnection) query.openConnection();
@@ -142,18 +137,20 @@ public class CastGenerator extends android.support.v4.app.Fragment {
         private String[] stringToJSONArray(String jsonString) {
             String[] resultJsonArray = null;
 
+            //array keys
             final String JSON_GET_CAST_NAME = "name";
             final String JSON_GET_CAST_CHAR = "character";
             final String JSON_GET_CAST_JOB = "job";
-
             final String JSON_GET_CAST_PROFILE_PATH = "profile_path";
 
             try {
                 JSONObject jsonCastInput = new JSONObject(jsonString);
                 JSONArray jsonCastJSONArray = jsonCastInput.getJSONArray("cast");
                 JSONArray jsonCrewJSONArray = jsonCastInput.getJSONArray("crew");
+                //array with cast + crew length
                 resultJsonArray = new String[jsonCastJSONArray.length()+jsonCrewJSONArray.length()];
                 for (int i = 0; i < jsonCastJSONArray.length(); i++) {
+                    //cast info
                     JSONObject innerJSONIterator = jsonCastJSONArray.getJSONObject(i);
                     //name,character,profile
                     String jsonToStringWithCommas =
@@ -163,8 +160,9 @@ public class CastGenerator extends android.support.v4.app.Fragment {
                     resultJsonArray[i] = jsonToStringWithCommas;
                 }
                 for (int i = 0; i < jsonCrewJSONArray.length(); i++) {
+                    //crew info
                     JSONObject innerJSONIterator = jsonCrewJSONArray.getJSONObject(i);
-                    //name,character,profile
+                    //name,job,profile
                     String jsonToStringWithCommas =
                             innerJSONIterator.getString(JSON_GET_CAST_NAME) + "|" +
                                     innerJSONIterator.getString(JSON_GET_CAST_JOB) + "|" +
@@ -195,16 +193,18 @@ public class CastGenerator extends android.support.v4.app.Fragment {
         public View getView(int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater = c.getLayoutInflater();
             View rootView =inflater.inflate(R.layout.listview_item_layout,null,true);
+            //instantiate views
             TextView castActorCharacter = (TextView)rootView.findViewById(R.id.tv_actor_character);
             TextView castActorName = (TextView)rootView.findViewById(R.id.tv_actor_name);
             ImageView castActorProfile = (ImageView)rootView.findViewById(R.id.img_actor_profile);
 
+            //seperate json string into list
             List<String> jsonSeperate = Arrays.asList(castInfo[position].split("\\|"));
             castActorName.setText(jsonSeperate.get(0));
             castActorCharacter.setText(jsonSeperate.get(1));
             Picasso.with(c) //
                     .load(URL_POSTER_HEADER + jsonSeperate.get(2))
-                    .error(R.drawable.error_actor)
+                    .error(R.drawable.error_no_img_found)
                     .into(castActorProfile);
             return rootView;
         }

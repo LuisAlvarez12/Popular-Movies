@@ -23,6 +23,7 @@ import java.util.List;
 
 public class CastCrewView extends AppCompatActivity {
 
+    //Main view for Cast and Crew list
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

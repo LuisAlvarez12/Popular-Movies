@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //code for Sliding Tab layout via Googles sample code
         viewPager=(ViewPager)findViewById(R.id.pageslider);
         viewPager.setAdapter(new ViewFragmentPageAdapter(getSupportFragmentManager(),mTitles));
         tabLayout = (SlidingTabLayout)findViewById(R.id.slidingtabs);

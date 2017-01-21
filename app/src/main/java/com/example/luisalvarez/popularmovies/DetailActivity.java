@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 public class DetailActivity extends AppCompatActivity {
 
+    //view for detailActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

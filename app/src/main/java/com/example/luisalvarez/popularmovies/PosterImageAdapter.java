@@ -2,30 +2,18 @@ package com.example.luisalvarez.popularmovies;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
-
-import static android.R.attr.start;
 
 /**
  * Created by luisalvarez on 1/15/17.
@@ -33,6 +21,7 @@ import static android.R.attr.start;
 
 public class PosterImageAdapter extends BaseAdapter {
 
+    //Generate Poster images for the gridview
     private Context mContext;
     private String[] posterUrlArray=null;
     private static LayoutInflater inflater=null;
@@ -73,9 +62,10 @@ public class PosterImageAdapter extends BaseAdapter {
         Picasso.with(mContext) //
                 .load(URL_POSTER_HEADER + list.get(3)) //
                 .placeholder(R.drawable.placeholder_red) //
-                .error(R.drawable.error) //
+                .error(R.drawable.error_no_img_found) //
                 .fit() //
                 .into(h.img);
+        //click for detailActivity
         rowView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

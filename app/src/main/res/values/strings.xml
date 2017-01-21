@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">Popular Movies</string>
     <string name="tab">\u0009</string>
+    <string name="release_date">Release Date</string>
+    <string name="cast_and_crew">Cast and Crew</string>
+    <string name="to_cast_list">View All Cast and Crew ►</string>
+    <string name="genres">Genres</string>
+    <string name="votes">Vote Average</string>
+    <string name="overview">Plot Overview</string>
 
 </resources>

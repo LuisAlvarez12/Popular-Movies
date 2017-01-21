@@ -66,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_toLeftOf="@+id/divider"
-                android:src="@drawable/placeholder"
+
                 />
 
             <LinearLayout
@@ -81,7 +81,7 @@
                 >
 
                 <TextView
-                    android:text="Release Date"
+                    android:text="@string/release_date"
                     android:layout_marginTop="30dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -93,13 +93,13 @@
                     android:id="@+id/tv_release_date"
                     android:textSize="20sp" />
                 <TextView
-                    android:text="Cast and Crew"
+                    android:text="@string/cast_and_crew"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/label_director" />
 
                 <TextView
-                    android:text="View All Cast and Crew ►"
+                    android:text="@string/to_cast_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/tv_cast"
@@ -109,19 +109,19 @@
 
 
                 <TextView
-                    android:text="Genres"
+                    android:text="@string/genres"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/label_genres" />
                 <TextView
-                    android:text="TextView"
+                    android:text=""
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/tv_genres"
                     android:textSize="20sp" />
 
                 <TextView
-                    android:text="Vote Average"
+                    android:text="@string/votes"
                     android:layout_marginTop="12dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -152,7 +152,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="22sp"
-            android:text="Plot Overview"
+            android:text="@string/overview"
             />
 
         <TextView
