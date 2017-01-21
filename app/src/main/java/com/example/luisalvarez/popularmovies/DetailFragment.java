@@ -45,6 +45,7 @@ public class DetailFragment extends Fragment {
         final ArrayList<String> movieList = getMovieInfo.getStringArrayListExtra("moviedata");
         //set action bar title to movie title
         getActivity().setTitle(movieList.get(0));
+
         viewInstantiator(rootView);
         fillRootView(movieList);
         tv_cast.setOnClickListener(new View.OnClickListener() {
@@ -52,6 +53,7 @@ public class DetailFragment extends Fragment {
             public void onClick(View v) {
                 Intent castActivity = new Intent(getActivity(),CastCrewView.class);
                 castActivity.putExtra("movie_id",movieList.get(6));
+                castActivity.putExtra("movie_title",movieList.get(0));
                 startActivity(castActivity);
             }
         });

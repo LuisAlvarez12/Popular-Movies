@@ -53,6 +53,7 @@ public class CastGenerator extends android.support.v4.app.Fragment {
         castList = (ListView)rootView.findViewById(R.id.listview_cast);
         Intent getIntent = getActivity().getIntent();
         String movieID = getIntent.getStringExtra("movie_id");
+        getActivity().setTitle(getIntent.getStringExtra("movie_title"));
         CastFetcher c = new CastFetcher();
         c.execute(movieID);
         return rootView;
