@@ -1,5 +1,6 @@
 package com.example.luisalvarez.popularmovies;
 
+import android.content.res.Resources;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -28,10 +29,11 @@ import static android.R.id.list;
 public class DetailFragment extends Fragment {
 
     //image URL start
-    private final String URL_POSTER_HEADER = "https://image.tmdb.org/t/p/w500";
+
+
     private ImageView img_backdrop,img_poster;
     private TextView tv_plot_overview,tv_title,tv_vote_average,tv_release,tv_genres,tv_cast;
-
+    private final String URL_POSTER_HEADER = "https://image.tmdb.org/t/p/w500";
     public DetailFragment(){
 
     }
@@ -107,40 +109,40 @@ public class DetailFragment extends Fragment {
         List<String> seperatedString = Arrays.asList(x.split("\\-"));
         switch (seperatedString.get(1)){
             case "01":
-                seperatedString.set(1,"January");
+                seperatedString.set(1,getActivity().getResources().getString(R.string.month_jan));
                 break;
             case "02":
-                seperatedString.set(1,"February");
+                seperatedString.set(1,getActivity().getResources().getString(R.string.month_feb));
                 break;
             case "03":
-                seperatedString.set(1,"March");
+                seperatedString.set(1,getActivity().getResources().getString(R.string.month_march));
                 break;
             case "04":
-                seperatedString.set(1,"April");
+                seperatedString.set(1,getActivity().getResources().getString(R.string.month_april));
                 break;
             case "05":
-                seperatedString.set(1,"May");
+                seperatedString.set(1,getActivity().getResources().getString(R.string.month_may));
                 break;
             case "06":
-                seperatedString.set(1,"June");
+                seperatedString.set(1,getActivity().getResources().getString(R.string.month_june));
                 break;
             case "07":
-                seperatedString.set(1,"July");
+                seperatedString.set(1,getActivity().getResources().getString(R.string.month_july));
                 break;
             case "08":
-                seperatedString.set(1,"August");
+                seperatedString.set(1,getActivity().getResources().getString(R.string.month_august));
                 break;
             case "09":
-                seperatedString.set(1,"September");
+                seperatedString.set(1,getActivity().getResources().getString(R.string.month_sept));
                 break;
             case "10":
-                seperatedString.set(1,"October");
+                seperatedString.set(1,getActivity().getResources().getString(R.string.month_oct));
                 break;
             case "11":
-                seperatedString.set(1,"November");
+                seperatedString.set(1,getActivity().getResources().getString(R.string.month_nov));
                 break;
             case "12":
-                seperatedString.set(1,"December");
+                seperatedString.set(1,getActivity().getResources().getString(R.string.month_dec));
                 break;
             default:
                 break;

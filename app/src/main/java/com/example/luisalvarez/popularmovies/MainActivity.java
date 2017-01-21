@@ -18,7 +18,10 @@ public class MainActivity extends AppCompatActivity  {
 
     private SlidingTabLayout tabLayout;
     private ViewPager viewPager;
-    private CharSequence[] mTitles = {"Popular Now","Top Rated","Upcoming"};
+    private CharSequence[] mTitles = {
+            "Popular Now"
+            ,"Top Rated"
+            ,"Upcoming"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -147,26 +147,27 @@ public class MovieFragment extends Fragment {
 
         //recieves genre id, converts to given value, and returns worded version
         private String genreKeytoName(String x){
+
             switch(x){
-                case "28":x="Action";break;
-                case "12":x="Adventure";break;
-                case "16":x="Animation";break;
-                case "35":x="Comedy";break;
-                case "80":x="Crime";break;
-                case "99":x="Documentary";break;
-                case "18":x="Drama";break;
-                case "10751":x="Family";break;
-                case "14":x="Fantasy";break;
-                case "36":x="History";break;
-                case "27":x="Horror";break;
-                case "10402":x="Music";break;
-                case "9648":x="Mystery";break;
-                case "10749":x="Romance";break;
-                case "878":x="Science Fiction";break;
-                case "10770":x="TV Movie";break;
-                case "53":x="Thriller";break;
-                case "10752":x="War";break;
-                case "37":x="Western";break;
+                case "28":x=getString(R.string.genre_action);break;
+                case "12":x=getString(R.string.genre_adventure);break;
+                case "16":x=getString(R.string.genre_animation);break;
+                case "35":x=getString(R.string.genre_comedy);break;
+                case "80":x=getString(R.string.genre_crime);break;
+                case "99":x=getString(R.string.genre_documentary);break;
+                case "18":x=getString(R.string.genre_drama);break;
+                case "10751":x=getString(R.string.genre_family);break;
+                case "14":x=getString(R.string.genre_fantasy);break;
+                case "36":x=getString(R.string.genre_history);break;
+                case "27":x=getString(R.string.genre_history);break;
+                case "10402":x=getString(R.string.genre_music);break;
+                case "9648":x=getString(R.string.genre_mystery);break;
+                case "10749":x=getString(R.string.genre_romance);break;
+                case "878":x=getString(R.string.genre_science_fiction);break;
+                case "10770":x=getString(R.string.genre_tv_movie);break;
+                case "53":x=getString(R.string.genre_thriller);break;
+                case "10752":x=getString(R.string.genre_war);break;
+                case "37":x=getString(R.string.genre_western);break;
                 default:x="";
             }
             return x;
@@ -174,14 +175,14 @@ public class MovieFragment extends Fragment {
 
         private String[] stringToJSONArray(String jsonString) {
             String[] resultJsonArray = null;
-            final String JSON_GET_BACKDROP = "backdrop_path";
-            final String JSON_GET_TITLE = "original_title";
-            final String JSON_GET_PLOT = "overview";
-            final String JSON_GET_VOTES = "vote_average";
-            final String JSON_GET_THUMBNAIL = "poster_path";
-            final String JSON_GET_RELEASE = "release_date";
-            final String JSON_GET_MOVIE_ID = "id";
-            final String JSON_GET_GENRES = "genre_ids";
+            final String JSON_GET_BACKDROP = getString(R.string.json_backdrop);
+            final String JSON_GET_TITLE = getString(R.string.json_title);
+            final String JSON_GET_PLOT = getString(R.string.json_overview);
+            final String JSON_GET_VOTES = getString(R.string.json_average);
+            final String JSON_GET_THUMBNAIL = getString(R.string.json_poster);
+            final String JSON_GET_RELEASE = getString(R.string.json_release);
+            final String JSON_GET_MOVIE_ID = getString(R.string.json_id);
+            final String JSON_GET_GENRES = getString(R.string.json_genre_id);
 
             try {
                 JSONObject jsonMovieInput = new JSONObject(jsonString);

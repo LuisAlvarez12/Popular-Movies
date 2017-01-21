@@ -28,6 +28,7 @@ public class PosterImageAdapter extends BaseAdapter {
     private final String URL_POSTER_HEADER = "https://image.tmdb.org/t/p/w500";
 
 
+
     public PosterImageAdapter(Context c, String[] a){
         mContext=c;
         posterUrlArray=a;

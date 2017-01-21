@@ -1,11 +1,59 @@
 <resources>
-    <string name="app_name">Popular Movies</string>
+    <string name="app_name" translatable="true">Popular Movies</string>
     <string name="tab">\u0009</string>
-    <string name="release_date">Release Date</string>
-    <string name="cast_and_crew">Cast and Crew</string>
-    <string name="to_cast_list">View All Cast and Crew ►</string>
-    <string name="genres">Genres</string>
-    <string name="votes">Vote Average</string>
-    <string name="overview">Plot Overview</string>
+    <string name="release_date" translatable="true">Release Date</string>
+    <string name="cast_and_crew" translatable="true">Cast and Crew</string>
+    <string name="to_cast_list" translatable="true">View All Cast and Crew ►</string>
+    <string name="genres" translatable="true">Genres</string>
+    <string name="votes" translatable="true">Vote Average</string>
+    <string name="overview" translatable="true">Plot Overview</string>
+    <!--image url header for json queries +posterImageAdapter-->
+    <string name="image_url_header">https://image.tmdb.org/t/p/w500</string>
+    <!--Genre selector for id to key conversion +MovieFragmen+DetailFragment-->
+    <string name="genre_action" translatable="true">Action</string>
+    <string name="genre_adventure" translatable="true">Adventure</string>
+    <string name="genre_animation" translatable="true">Animation</string>
+    <string name="genre_comedy" translatable="true">Comedy</string>
+    <string name="genre_crime" translatable="true">Crime</string>
+    <string name="genre_documentary" translatable="true">Documentary</string>
+    <string name="genre_drama" translatable="true">Drama</string>
+    <string name="genre_family" translatable="true">Family</string>
+    <string name="genre_fantasy" translatable="true">Fantasy</string>
+    <string name="genre_history" translatable="true">History</string>
+    <string name="genre_horror" translatable="true">Horror</string>
+    <string name="genre_music" translatable="true">Music</string>
+    <string name="genre_mystery" translatable="true">Mystery</string>
+    <string name="genre_romance" translatable="true">Romance</string>
+    <string name="genre_science_fiction" translatable="true">Science Fiction</string>
+    <string name="genre_tv_movie"></string>
+    <string name="genre_thriller" translatable="true">Thriller</string>
+    <string name="genre_war" translatable="true">War</string>
+    <string name="genre_western" translatable="true">Western</string>
+
+    <!--json getter id for converting from a string +MovieFragment-->
+    <string name="json_backdrop" translatable="false">backdrop_path</string>
+    <string name="json_title" translatable="false">original_title</string>
+    <string name="json_overview" translatable="false">overview</string>
+    <string name="json_average" translatable="false">vote_average</string>
+    <string name="json_poster" translatable="false">poster_path</string>
+    <string name="json_release" translatable="false">release_date</string>
+    <string name="json_id" translatable="false">id</string>
+    <string name="json_genre_id" translatable="false">genre_ids</string>
+
+    <!--months used for formatting the date +DetailFragment-->
+    <string name="month_jan"  translatable="true">January</string>
+    <string name="month_feb" translatable="true">February</string>
+    <string name="month_march" translatable="true">March</string>
+    <string name="month_april" translatable="true">April</string>
+    <string name="month_may" translatable="true">May</string>
+    <string name="month_june" translatable="true">June</string>
+    <string name="month_july" translatable="true">July</string>
+    <string name="month_august" translatable="true">August</string>
+    <string name="month_sept" translatable="true">September</string>
+    <string name="month_oct" translatable="true">October</string>
+    <string name="month_nov" translatable="true">November</string>
+    <string name="month_dec" translatable="true">December</string>
+
+
 
 </resources>
