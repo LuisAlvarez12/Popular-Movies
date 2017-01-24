@@ -51,6 +51,9 @@ public class PosterImageAdapter extends BaseAdapter {
         ImageView img;
     }
 
+    static class ViewHolder{
+
+    }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Holder h = new Holder();
@@ -60,6 +63,7 @@ public class PosterImageAdapter extends BaseAdapter {
         h.tv=(TextView)rowView.findViewById(R.id.tv_inner_grid);
         h.img=(ImageView) rowView.findViewById(R.id.imageview_inner_grid);
         h.tv.setText(list.get(0));
+        rowView.setTag(h);
         Picasso.with(mContext) //
                 .load(URL_POSTER_HEADER + list.get(3)) //
                 .placeholder(R.drawable.placeholder_red) //

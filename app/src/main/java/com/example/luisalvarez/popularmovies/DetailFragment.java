@@ -6,11 +6,15 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -38,6 +42,11 @@ public class DetailFragment extends Fragment {
 
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,7 +55,7 @@ public class DetailFragment extends Fragment {
         //get list passed from intent
         final ArrayList<String> movieList = getMovieInfo.getStringArrayListExtra("moviedata");
         //set action bar title to movie title
-        getActivity().setTitle(movieList.get(0));
+//        getActivity().setTitle(movieList.get(0));
 
         viewInstantiator(rootView);
         fillRootView(movieList);
@@ -57,8 +66,13 @@ public class DetailFragment extends Fragment {
                 castActivity.putExtra("movie_id",movieList.get(6));
                 castActivity.putExtra("movie_title",movieList.get(0));
                 startActivity(castActivity);
+
             }
         });
+        Toolbar toolbar = (Toolbar)rootView.findViewById(R.id.toolbar);
+        toolbar.setTitle(movieList.get(0));
+
+        
         return rootView;
     }
 
@@ -88,6 +102,7 @@ public class DetailFragment extends Fragment {
         //genres
         tv_genres.setText(movieList.get(7));
 
+
     }
 
     //views from rootview
@@ -100,6 +115,7 @@ public class DetailFragment extends Fragment {
         tv_release = (TextView)rootView.findViewById(R.id.tv_release_date);
         tv_genres = (TextView)rootView.findViewById(R.id.tv_genres);
         tv_cast =(TextView)rootView.findViewById(R.id.tv_cast);
+
 
     }
 

@@ -10,7 +10,7 @@
         android:verticalSpacing="@dimen/zeroed_out"
         android:horizontalSpacing="@dimen/zeroed_out"
         android:stretchMode="columnWidth"
-        android:numColumns="2"
+        android:numColumns="3"
         android:id="@+id/grid_movie_layout" />
 
 

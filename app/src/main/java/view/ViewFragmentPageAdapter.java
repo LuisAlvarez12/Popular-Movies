@@ -1,5 +1,6 @@
 package view;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -24,14 +25,24 @@ public class ViewFragmentPageAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int i) {
 
+
         if(i==0){
-            MovieFragment fragment1 = new MovieFragment("popular");
+            Bundle bundle = new Bundle();
+            bundle.putString("sortOrder", "popular");
+            MovieFragment fragment1 = new MovieFragment();
+            fragment1.setArguments(bundle);
             return fragment1;
         }else if(i==1){
-            MovieFragment fragment2=new MovieFragment("top_rated");
+            Bundle bundle = new Bundle();
+            bundle.putString("sortOrder", "top_rated");
+            MovieFragment fragment2=new MovieFragment();
+            fragment2.setArguments(bundle);
             return fragment2;
         }else{
-            MovieFragment fragment2=new MovieFragment("upcoming");
+            Bundle bundle = new Bundle();
+            bundle.putString("sortOrder", "upcoming");
+            MovieFragment fragment2 =new MovieFragment();
+            fragment2.setArguments(bundle);
             return fragment2;
         }
     }
