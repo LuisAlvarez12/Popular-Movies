@@ -1,23 +1,19 @@
 package com.example.luisalvarez.popularmovies;
 
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.GridView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -87,9 +83,7 @@ public class MovieFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         posterGrid = (GridView)rootView.findViewById(R.id.grid_movie_layout);
-        //MovieFetcher m = new MovieFetcher();
-        //m.execute();
-                //uri build
+
         getBundle(getArguments());
         final String URL_BASE = "https://api.themoviedb.org/3/movie/"+sortOrder+"?";
 

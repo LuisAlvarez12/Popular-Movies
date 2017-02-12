@@ -25,7 +25,7 @@
     <string name="genre_mystery" translatable="true">Mystery</string>
     <string name="genre_romance" translatable="true">Romance</string>
     <string name="genre_science_fiction" translatable="true">Science Fiction</string>
-    <string name="genre_tv_movie"></string>
+    <string name="genre_tv_movie" translatable="true">TV Movie</string>
     <string name="genre_thriller" translatable="true">Thriller</string>
     <string name="genre_war" translatable="true">War</string>
     <string name="genre_western" translatable="true">Western</string>

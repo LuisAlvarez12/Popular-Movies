@@ -1,20 +1,17 @@
 package com.example.luisalvarez.popularmovies;
 
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-
-import java.util.Locale;
 
 import view.SlidingTabLayout;
 import view.ViewFragmentPageAdapter;
 
 public class MainActivity extends AppCompatActivity  {
+
+
 
     private SlidingTabLayout tabLayout;
     private ViewPager viewPager;
@@ -22,11 +19,17 @@ public class MainActivity extends AppCompatActivity  {
             "Popular Now"
             ,"Top Rated"
             ,"Upcoming"};
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setSlidingTabLayoutView();
 
+    }
+
+    private void setSlidingTabLayoutView() {
         //code for Sliding Tab layout via Googles sample code
         viewPager=(ViewPager)findViewById(R.id.pageslider);
         viewPager.setAdapter(new ViewFragmentPageAdapter(getSupportFragmentManager(),mTitles));
