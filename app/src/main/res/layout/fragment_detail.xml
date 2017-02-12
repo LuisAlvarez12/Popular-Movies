@@ -192,6 +192,16 @@
                 android:layout_marginRight="@dimen/margin_standard_and_elev"
                 android:layout_marginBottom="@dimen/margin_standard_and_elev"
                 />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/favorites_button"
+                android:text="fav"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/favorites_move"
+                android:text="go to fav"/>
         </LinearLayout>
         </LinearLayout>
     </RelativeLayout>

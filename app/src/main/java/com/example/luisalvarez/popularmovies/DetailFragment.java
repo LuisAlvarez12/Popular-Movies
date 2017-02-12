@@ -1,21 +1,28 @@
 package com.example.luisalvarez.popularmovies;
 
+import android.content.ContentValues;
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import com.example.luisalvarez.popularmovies.data.MovieContract;
 
 /**
  * Created by luisalvarez on 1/16/17.
@@ -28,6 +35,7 @@ public class DetailFragment extends Fragment {
 
     private ImageView img_backdrop,img_poster;
     private TextView tv_plot_overview,tv_title,tv_vote_average,tv_release,tv_genres,tv_cast;
+    private Button button_fav,button_fav_go;
     private final String URL_POSTER_HEADER = "https://image.tmdb.org/t/p/w500";
     public DetailFragment(){
 
@@ -44,12 +52,40 @@ public class DetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
         Intent getMovieInfo = getActivity().getIntent();
         //get list passed from intent
+        //String order = title,release,vote_average, thumbnail, plot, backdrop,id,genres
         final ArrayList<String> movieList = getMovieInfo.getStringArrayListExtra("moviedata");
         //set action bar title to movie title
 //        getActivity().setTitle(movieList.get(0));
 
         viewInstantiator(rootView);
         fillRootView(movieList);
+        button_fav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ContentValues values = new ContentValues();
+                values.put(MovieContract.MovieEntry.COLUMN_MOVIE_TITLE,movieList.get(0));
+                values.put(MovieContract.MovieEntry.COLUMN_MOVIE_RELEASE_DATE,movieList.get(1));
+                values.put(MovieContract.MovieEntry.COLUMN_MOVIE_VOTES,movieList.get(2));
+                values.put(MovieContract.MovieEntry.COLUMN_MOVIE_THUMBNAIL,movieList.get(3));
+                values.put(MovieContract.MovieEntry.COLUMN_MOVIE_PLOT,movieList.get(4));
+                values.put(MovieContract.MovieEntry.COLUMN_BACKDROP,movieList.get(5));
+                values.put(MovieContract.MovieEntry.COLUMN_MOVIE_ID,movieList.get(6));
+                values.put(MovieContract.MovieEntry.COLUMN_MOVIE_GENRES,movieList.get(7));
+                Log.d("db","7");
+                Uri FAV_CONTENT_URI = getContext().getContentResolver().insert(
+                        MovieContract.MovieEntry.CONTENT_URI,values
+                );
+                Toast.makeText(getActivity(),"added!",Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        button_fav_go.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentF = new Intent(getActivity(),FavoritesLayout.class);
+                startActivity(intentF);
+            }
+        });
         tv_cast.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,6 +130,7 @@ public class DetailFragment extends Fragment {
         tv_genres.setText(movieList.get(7));
 
 
+
     }
 
     //views from rootview
@@ -106,6 +143,8 @@ public class DetailFragment extends Fragment {
         tv_release = (TextView)rootView.findViewById(R.id.tv_release_date);
         tv_genres = (TextView)rootView.findViewById(R.id.tv_genres);
         tv_cast =(TextView)rootView.findViewById(R.id.tv_cast);
+        button_fav = (Button)rootView.findViewById(R.id.favorites_button);
+        button_fav_go=(Button)rootView.findViewById(R.id.favorites_move);
 
 
     }

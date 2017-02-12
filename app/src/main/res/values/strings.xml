@@ -41,7 +41,7 @@
     <string name="json_genre_id" translatable="false">genre_ids</string>
 
     <!--months used for formatting the date +DetailFragment-->
-    <string name="month_jan"  translatable="true">January</string>
+    <string name="month_jan" translatable="true">January</string>
     <string name="month_feb" translatable="true">February</string>
     <string name="month_march" translatable="true">March</string>
     <string name="month_april" translatable="true">April</string>
@@ -53,7 +53,6 @@
     <string name="month_oct" translatable="true">October</string>
     <string name="month_nov" translatable="true">November</string>
     <string name="month_dec" translatable="true">December</string>
-
 
 
 </resources>

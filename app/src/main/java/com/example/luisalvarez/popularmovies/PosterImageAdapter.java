@@ -51,9 +51,7 @@ public class PosterImageAdapter extends BaseAdapter {
         ImageView img;
     }
 
-    static class ViewHolder{
 
-    }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Holder h = new Holder();
