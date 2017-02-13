@@ -1,4 +1,4 @@
-package com.example.luisalvarez.popularmovies;
+package com.example.luisalvarez.popularmovies.fragment;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,6 +16,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.luisalvarez.popularmovies.BuildConfig;
+import com.example.luisalvarez.popularmovies.view.PosterImageAdapter;
+import com.example.luisalvarez.popularmovies.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,24 +30,32 @@ import org.json.JSONObject;
 
 public class MovieFragment extends Fragment {
 
-    private String[] posterUrlFooters;
-    private int[] pageIncrementor = {1,1,1};
     private GridView posterGrid;
     private RequestQueue requestQueue;
-    private String[] resultJsonArray;
-                final String URL_LANGUAGE = "language";
-                final String URL_PAGE = "page";
-                final String URL_KEY = "api_key";
+    final String URL_LANGUAGE = "language";
+    final String URL_PAGE = "page";
+    final String URL_KEY = "api_key";
     String sortOrder;
 
-    public MovieFragment() {
-
-    }
+    public MovieFragment() {}
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        posterGrid = (GridView)rootView.findViewById(R.id.grid_movie_layout);
 
+        getBundle(getArguments());
+        final String URL_BASE = "https://api.themoviedb.org/3/movie/"+sortOrder+"?";
+        Uri builtUri = Uri.parse(URL_BASE).buildUpon()
+                .appendQueryParameter(URL_KEY, BuildConfig.Movie_DB_key)
+                .appendQueryParameter(URL_LANGUAGE, "en-US")
+                .appendQueryParameter(URL_PAGE, "1")
+                .build();
+        requestQueue = Volley.newRequestQueue(getActivity());
+        Log.d("Volley", builtUri.toString());
+        JsonObjectRequest arrayreq = getJsonObjectRequest(builtUri);
+        requestQueue.add(arrayreq);
+        return rootView;
     }
 
     private void getBundle(Bundle b){
@@ -54,51 +65,16 @@ public class MovieFragment extends Fragment {
     }
 
     private String genreKeytoName(String x){
-
         switch(x){
-            case "28":x=getString(R.string.genre_action);break;
-            case "12":x=getString(R.string.genre_adventure);break;
-            case "16":x=getString(R.string.genre_animation);break;
-            case "35":x=getString(R.string.genre_comedy);break;
-            case "80":x=getString(R.string.genre_crime);break;
-            case "99":x=getString(R.string.genre_documentary);break;
-            case "18":x=getString(R.string.genre_drama);break;
-            case "10751":x=getString(R.string.genre_family);break;
-            case "14":x=getString(R.string.genre_fantasy);break;
-            case "36":x=getString(R.string.genre_history);break;
-            case "27":x=getString(R.string.genre_history);break;
-            case "10402":x=getString(R.string.genre_music);break;
-            case "9648":x=getString(R.string.genre_mystery);break;
-            case "10749":x=getString(R.string.genre_romance);break;
-            case "878":x=getString(R.string.genre_science_fiction);break;
-            case "10770":x=getString(R.string.genre_tv_movie);break;
-            case "53":x=getString(R.string.genre_thriller);break;
-            case "10752":x=getString(R.string.genre_war);break;
-            case "37":x=getString(R.string.genre_western);break;
-            default:x="";
+            case "28":x=getString(R.string.genre_action);break;case "12":x=getString(R.string.genre_adventure);break;case "16":x=getString(R.string.genre_animation);break;
+            case "35":x=getString(R.string.genre_comedy);break;case "80":x=getString(R.string.genre_crime);break;case "99":x=getString(R.string.genre_documentary);break;
+            case "18":x=getString(R.string.genre_drama);break;case "10751":x=getString(R.string.genre_family);break;case "14":x=getString(R.string.genre_fantasy);break;
+            case "36":x=getString(R.string.genre_history);break;case "27":x=getString(R.string.genre_history);break;case "10402":x=getString(R.string.genre_music);break;
+            case "9648":x=getString(R.string.genre_mystery);break;case "10749":x=getString(R.string.genre_romance);break;case "878":x=getString(R.string.genre_science_fiction);break;
+            case "10770":x=getString(R.string.genre_tv_movie);break;case "53":x=getString(R.string.genre_thriller);break;case "10752":x=getString(R.string.genre_war);break;
+            case "37":x=getString(R.string.genre_western);break;default:x="";
         }
         return x;
-    }
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        posterGrid = (GridView)rootView.findViewById(R.id.grid_movie_layout);
-
-        getBundle(getArguments());
-        final String URL_BASE = "https://api.themoviedb.org/3/movie/"+sortOrder+"?";
-
-
-        Uri builtUri = Uri.parse(URL_BASE).buildUpon()
-                        .appendQueryParameter(URL_KEY, BuildConfig.Movie_DB_key)
-                        .appendQueryParameter(URL_LANGUAGE, "en-US")
-                        .appendQueryParameter(URL_PAGE, "1")
-                        .build();
-
-        requestQueue = Volley.newRequestQueue(getActivity());
-        Log.d("Volley", builtUri.toString());
-        JsonObjectRequest arrayreq = getJsonObjectRequest(builtUri);
-        requestQueue.add(arrayreq);
-        return rootView;
     }
 
     @NonNull
@@ -106,10 +82,8 @@ public class MovieFragment extends Fragment {
         return new JsonObjectRequest(Request.Method.GET, builtUri.toString(), new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                JSONObject fullJsonObject = response;
                     try {
-
-                        String[] resultJsonArray = null;
+                        String[] resultJsonArray;
                         final String JSON_GET_BACKDROP = getString(R.string.json_backdrop);
                         final String JSON_GET_TITLE = getString(R.string.json_title);
                         final String JSON_GET_PLOT = getString(R.string.json_overview);
@@ -118,11 +92,10 @@ public class MovieFragment extends Fragment {
                         final String JSON_GET_RELEASE = getString(R.string.json_release);
                         final String JSON_GET_MOVIE_ID = getString(R.string.json_id);
                         final String JSON_GET_GENRES = getString(R.string.json_genre_id);
-                        JSONArray jsonMovieInnerArray = fullJsonObject.getJSONArray("results");
+                        JSONArray jsonMovieInnerArray = response.getJSONArray("results");
                         resultJsonArray = new String[jsonMovieInnerArray.length()];
                         for (int i = 0; i < jsonMovieInnerArray.length(); i++) {
                             JSONObject innerJSONIterator = jsonMovieInnerArray.getJSONObject(i);
-                            String title = innerJSONIterator.getString(JSON_GET_TITLE);
                             //following will loop through all possible genres to be converted into words instead of id keys
                             JSONArray genreArray = innerJSONIterator.getJSONArray(JSON_GET_GENRES);
                             String genresString ="";
@@ -144,7 +117,6 @@ public class MovieFragment extends Fragment {
                                             innerJSONIterator.getString(JSON_GET_MOVIE_ID)+ "|" +
                                             genresString;
                             resultJsonArray[i] = jsonToStringWithCommas;
-
                         }
                         posterGrid.setAdapter(new PosterImageAdapter(getActivity(),resultJsonArray));
                     } catch (JSONException e) {

@@ -4,12 +4,12 @@
     android:id="@+id/activity_cast_crew_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.luisalvarez.popularmovies.CastCrewView">
+    tools:context="com.example.luisalvarez.popularmovies.CastCrewActivity">
 
 
     <fragment
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="com.example.luisalvarez.popularmovies.CastGenerator"
+        android:name="com.example.luisalvarez.popularmovies.fragment.CastGenerator"
         android:id="@+id/fragment" />
 </RelativeLayout>

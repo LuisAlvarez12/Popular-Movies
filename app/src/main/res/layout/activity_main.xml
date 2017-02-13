@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context="com.example.luisalvarez.popularmovies.MainActivity">
 
-    <view.SlidingTabLayout
+    <com.example.luisalvarez.popularmovies.view.SlidingTabLayout
         android:layout_width="match_parent"
         android:id="@+id/slidingtabs"
         android:layout_height="wrap_content"/>

@@ -1,6 +1,7 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
@@ -34,7 +35,19 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin" />
+                app:layout_collapseMode="pin">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:id="@+id/favorites_select"
+                    android:layout_marginRight="@dimen/margin_standard_and_elev"
+                    android:background="@drawable/ic_favorite_border_white_24dp"/>
+            </android.support.v7.widget.Toolbar>
+
+
+
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
@@ -45,6 +58,7 @@
     android:clipToPadding="false"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:layout_width="match_parent">
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -192,18 +206,58 @@
                 android:layout_marginRight="@dimen/margin_standard_and_elev"
                 android:layout_marginBottom="@dimen/margin_standard_and_elev"
                 />
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/favorites_button"
-                android:text="fav"/>
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/favorites_move"
-                android:text="go to fav"/>
+
         </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:elevation="@dimen/margin_standard_and_elev"
+                android:background="@drawable/white_rounded_corners"
+                android:layout_margin="@dimen/margin_standard_and_elev"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="@dimen/tv_standard_high_size"
+                    android:text="@string/trailers"
+                    />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/img_trailer_thumbnail"
+                    android:layout_margin="@dimen/margin_standard_and_elev"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:id="@+id/tv_trailer_thumbnail"
+                    android:textSize="@dimen/tv_paragraph_size"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:elevation="@dimen/margin_standard_and_elev"
+                android:background="@drawable/white_rounded_corners"
+                android:layout_margin="@dimen/margin_standard_and_elev"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="@dimen/tv_standard_high_size"
+                    android:text="@string/reviews"
+                    />
+
+            </LinearLayout>
+
         </LinearLayout>
+
     </RelativeLayout>
 </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

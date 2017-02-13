@@ -6,27 +6,24 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import view.SlidingTabLayout;
-import view.ViewFragmentPageAdapter;
+import com.example.luisalvarez.popularmovies.view.SlidingTabLayout;
+import com.example.luisalvarez.popularmovies.view.ViewFragmentPageAdapter;
 
 public class MainActivity extends AppCompatActivity  {
-
-
 
     private SlidingTabLayout tabLayout;
     private ViewPager viewPager;
     private CharSequence[] mTitles = {
             "Popular Now"
             ,"Top Rated"
-            ,"Upcoming"};
-
+            ,"Upcoming",
+            "Favorites"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setSlidingTabLayoutView();
-
     }
 
     private void setSlidingTabLayoutView() {
@@ -55,13 +52,6 @@ public class MainActivity extends AppCompatActivity  {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int getId = item.getItemId();
-
-        if(getId==R.id.menu_settings){
-
-        }
-
-
         return super.onOptionsItemSelected(item);
     }
 }

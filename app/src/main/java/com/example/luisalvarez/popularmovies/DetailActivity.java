@@ -12,14 +12,11 @@ public class DetailActivity extends AppCompatActivity {
      * provides more details per movie via id
      */
 
-    //view for detailActivity
+    //com.example.luisalvarez.popularmovies.view for detailActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-
-
-
 
     }
 }

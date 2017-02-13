@@ -1,11 +1,12 @@
-package view;
+package com.example.luisalvarez.popularmovies.view;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.example.luisalvarez.popularmovies.MovieFragment;
+import com.example.luisalvarez.popularmovies.fragment.FavoritesFragment;
+import com.example.luisalvarez.popularmovies.fragment.MovieFragment;
 
 /**
  * Created by luisalvarez on 1/20/17.
@@ -36,12 +37,14 @@ public class ViewFragmentPageAdapter extends FragmentStatePagerAdapter {
             MovieFragment fragment2=new MovieFragment();
             fragment2.setArguments(bundle);
             return fragment2;
-        }else{
+        }else if(i==2){
             Bundle bundle = new Bundle();
             bundle.putString("sortOrder", "upcoming");
             MovieFragment fragment2 =new MovieFragment();
             fragment2.setArguments(bundle);
             return fragment2;
+        }else{
+            return new FavoritesFragment();
         }
     }
 

@@ -1,4 +1,4 @@
-package com.example.luisalvarez.popularmovies;
+package com.example.luisalvarez.popularmovies.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.luisalvarez.popularmovies.DetailActivity;
+import com.example.luisalvarez.popularmovies.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -27,8 +29,6 @@ public class PosterImageAdapter extends BaseAdapter {
     private static LayoutInflater inflater=null;
     private final String URL_POSTER_HEADER = "https://image.tmdb.org/t/p/w500";
 
-
-
     public PosterImageAdapter(Context c, String[] a){
         mContext=c;
         posterUrlArray=a;
@@ -45,18 +45,15 @@ public class PosterImageAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return 0;
     }
-
     public class Holder{
         TextView tv;
         ImageView img;
     }
 
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Holder h = new Holder();
-        final List<String> list = new ArrayList<String>(Arrays.asList(((String)getItem(position)).split("\\|")));
-
+        final List<String> list = new ArrayList<>(Arrays.asList(((String)getItem(position)).split("\\|")));
         View rowView = inflater.inflate(R.layout.grid_image_and_textview,null);
         h.tv=(TextView)rowView.findViewById(R.id.tv_inner_grid);
         h.img=(ImageView) rowView.findViewById(R.id.imageview_inner_grid);

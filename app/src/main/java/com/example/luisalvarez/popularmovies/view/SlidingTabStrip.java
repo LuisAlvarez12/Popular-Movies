@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package view;
+package com.example.luisalvarez.popularmovies.view;
 
 import android.R;
 import android.content.Context;
@@ -26,7 +26,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import view.SlidingTabLayout;
+import com.example.luisalvarez.popularmovies.view.SlidingTabLayout;
 
 class SlidingTabStrip extends LinearLayout {
 

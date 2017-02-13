@@ -7,6 +7,8 @@
     <string name="genres" translatable="true">Genres</string>
     <string name="votes" translatable="true">Vote Average</string>
     <string name="overview" translatable="true">Plot Overview</string>
+    <string name="trailers" translatable="true">Trailers</string>
+    <string name="reviews" translatable="true">User Reviews</string>
     <!--image url header for json queries +posterImageAdapter-->
     <string name="image_url_header">https://image.tmdb.org/t/p/w500</string>
     <!--Genre selector for id to key conversion +MovieFragmen+DetailFragment-->

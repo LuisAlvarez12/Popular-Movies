@@ -3,11 +3,6 @@
     package="com.example.luisalvarez.popularmovies">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
-    <provider
-        android:name=".MovieProvider"
-        android:authorities="com.example.luisalvarez.popularmovies" />
-
     <application
         android:allowBackup="true"
         android:icon="@drawable/icon_launcher"
@@ -24,11 +19,11 @@
         <activity
             android:name=".DetailActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".CastCrewView" />
-        <activity android:name=".FavoritesLayout"></activity>
+        <activity android:name=".CastCrewActivity" />
+        <activity android:name=".FavoritesActivity"/>
         <provider
             android:authorities="com.example.luisalvarez.popularmovies"
-            android:name="MovieProvider"
+            android:name=".data.MovieProvider"
             />
     </application>
 

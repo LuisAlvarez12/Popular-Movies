@@ -1,10 +1,11 @@
-package com.example.luisalvarez.popularmovies;
+package com.example.luisalvarez.popularmovies.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.luisalvarez.popularmovies.BuildConfig;
+import com.example.luisalvarez.popularmovies.R;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -39,7 +42,6 @@ public class CastGenerator extends android.support.v4.app.Fragment {
     //Cast/crew listview
     private ListView castList;
     private RequestQueue requestQueue;
-
     //image url header
     private final String URL_POSTER_HEADER = "https://image.tmdb.org/t/p/w500";
     public CastGenerator() {
@@ -82,9 +84,8 @@ public class CastGenerator extends android.support.v4.app.Fragment {
                         final String JSON_GET_CAST_PROFILE_PATH = "profile_path";
 
                         try {
-                            JSONObject jsonCastInput = response;
-                            JSONArray jsonCastJSONArray = jsonCastInput.getJSONArray("cast");
-                            JSONArray jsonCrewJSONArray = jsonCastInput.getJSONArray("crew");
+                            JSONArray jsonCastJSONArray = response.getJSONArray("cast");
+                            JSONArray jsonCrewJSONArray = response.getJSONArray("crew");
                             //array with cast + crew length
                             resultJsonArray = new String[jsonCastJSONArray.length()+jsonCrewJSONArray.length()];
                             for (int i = 0; i < jsonCastJSONArray.length(); i++) {
@@ -111,7 +112,7 @@ public class CastGenerator extends android.support.v4.app.Fragment {
                             castList.setAdapter(listAdapter);
                         }
                         catch(JSONException e) {
-
+                            Log.e("json",e.getMessage());
                         }
                 }
             }, new Response.ErrorListener() {

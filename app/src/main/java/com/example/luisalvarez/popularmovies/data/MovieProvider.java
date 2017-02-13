@@ -1,4 +1,4 @@
-package com.example.luisalvarez.popularmovies;
+package com.example.luisalvarez.popularmovies.data;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -41,7 +41,7 @@ public class MovieProvider extends ContentProvider {
         switch (sUriMatcher.match(uri)){
             case FAV_LIST:
                     retCursor = db.query(
-                    MovieContract.MovieEntry.TABLE_NAME,
+                    MovieContract.FavoriteEntry.TABLE_NAME,
                     projection,
                     selection,
                     selectionArgs,
@@ -53,9 +53,9 @@ public class MovieProvider extends ContentProvider {
             case FAV_ID:
                 long _id = ContentUris.parseId(uri);
                 retCursor = db.query(
-                        MovieContract.MovieEntry.TABLE_NAME,
+                        MovieContract.FavoriteEntry.TABLE_NAME,
                         projection,
-                        MovieContract.MovieEntry._ID + " = ?",
+                        MovieContract.FavoriteEntry._ID + " = ?",
                         new String[]{String.valueOf(_id)},
                         null,
                         null,
@@ -74,9 +74,9 @@ public class MovieProvider extends ContentProvider {
     public String getType(Uri uri) {
         switch (sUriMatcher.match(uri)){
             case FAV_LIST:
-                return MovieContract.MovieEntry.CONTENT_TYPE;
+                return MovieContract.FavoriteEntry.CONTENT_TYPE;
             case FAV_ID:
-                return MovieContract.MovieEntry.CONTENT_ITEM_TYPE;
+                return MovieContract.FavoriteEntry.CONTENT_ITEM_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown Uri: " +uri);
         }
@@ -89,9 +89,9 @@ public class MovieProvider extends ContentProvider {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         long _id;
         Uri returnUri;
-                _id = db.insert(MovieContract.MovieEntry.TABLE_NAME, null, values);
+                _id = db.insert(MovieContract.FavoriteEntry.TABLE_NAME, null, values);
                 if(_id > 0){
-                    returnUri =  MovieContract.MovieEntry.buildMovieUri(_id);
+                    returnUri =  MovieContract.FavoriteEntry.buildMovieUri(_id);
                 } else{
                     throw new UnsupportedOperationException("Unable to insert rows into: " + uri);
                 }
@@ -105,10 +105,10 @@ public class MovieProvider extends ContentProvider {
         int rows=-1;
         switch (sUriMatcher.match(uri)){
             case FAV_LIST:
-                rows = db.delete(MovieContract.MovieEntry.TABLE_NAME,selection,selectionArgs);
+                rows = db.delete(MovieContract.FavoriteEntry.TABLE_NAME,selection,selectionArgs);
                 break;
             case FAV_ID:
-                rows = db.delete(MovieContract.MovieEntry.TABLE_NAME,selection,selectionArgs);
+                rows = db.delete(MovieContract.FavoriteEntry.TABLE_NAME,selection,selectionArgs);
                 break;
         }
         // Because null could delete all rows:
@@ -124,10 +124,10 @@ public class MovieProvider extends ContentProvider {
         int rows=-1;
         switch (sUriMatcher.match(uri)){
             case FAV_LIST:
-                rows = db.update(MovieContract.MovieEntry.TABLE_NAME,values,selection,selectionArgs);
+                rows = db.update(MovieContract.FavoriteEntry.TABLE_NAME,values,selection,selectionArgs);
                 break;
             case FAV_ID:
-                rows = db.update(MovieContract.MovieEntry.TABLE_NAME,values,selection,selectionArgs);
+                rows = db.update(MovieContract.FavoriteEntry.TABLE_NAME,values,selection,selectionArgs);
                 break;
         }
         // Because null could delete all rows:
