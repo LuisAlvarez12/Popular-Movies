@@ -20,7 +20,7 @@
             android:name=".DetailActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".CastCrewActivity" />
-        <activity android:name=".FavoritesActivity"/>
+
         <provider
             android:authorities="com.example.luisalvarez.popularmovies"
             android:name=".data.MovieProvider"

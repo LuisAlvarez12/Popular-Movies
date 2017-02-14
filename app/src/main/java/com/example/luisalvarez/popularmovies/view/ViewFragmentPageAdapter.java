@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.example.luisalvarez.popularmovies.fragment.FavoritesFragment;
 import com.example.luisalvarez.popularmovies.fragment.MovieFragment;
 
 /**
@@ -25,27 +24,32 @@ public class ViewFragmentPageAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int i) {
 
 
-        if(i==0){
+        if (i == 0) {
             Bundle bundle = new Bundle();
             bundle.putString("sortOrder", "popular");
             MovieFragment fragment1 = new MovieFragment();
             fragment1.setArguments(bundle);
             return fragment1;
-        }else if(i==1){
+        } else if (i == 1) {
             Bundle bundle = new Bundle();
             bundle.putString("sortOrder", "top_rated");
-            MovieFragment fragment2=new MovieFragment();
+            MovieFragment fragment2 = new MovieFragment();
             fragment2.setArguments(bundle);
             return fragment2;
-        }else if(i==2){
+        } else if (i == 2) {
             Bundle bundle = new Bundle();
             bundle.putString("sortOrder", "upcoming");
-            MovieFragment fragment2 =new MovieFragment();
+            MovieFragment fragment2 = new MovieFragment();
             fragment2.setArguments(bundle);
             return fragment2;
-        }else{
-            return new FavoritesFragment();
+        } else {
+            Bundle bundle = new Bundle();
+            bundle.putString("sortOrder", "favorites");
+            MovieFragment fragment2 = new MovieFragment();
+            fragment2.setArguments(bundle);
+            return fragment2;
         }
+
     }
 
     @Override

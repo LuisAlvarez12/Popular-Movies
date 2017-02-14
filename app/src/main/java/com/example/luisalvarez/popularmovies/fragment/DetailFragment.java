@@ -2,6 +2,7 @@ package com.example.luisalvarez.popularmovies.fragment;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.*;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -18,32 +20,52 @@ import android.widget.TextView;
 
 import com.example.luisalvarez.popularmovies.CastCrewActivity;
 import com.example.luisalvarez.popularmovies.R;
+import com.example.luisalvarez.popularmovies.data.DataContract;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.example.luisalvarez.popularmovies.data.MovieContract;
+import static android.R.attr.id;
+import static android.R.attr.name;
 
 /**
  * Created by luisalvarez on 1/16/17.
  */
 
 public class DetailFragment extends Fragment implements LoaderManager.LoaderCallbacks{
-
-    private String movieIdForLoader ="";
     //image URL start
     public static final String[] mProjectionMovieId = {
-            MovieContract.FavoriteEntry.COLUMN_MOVIE_ID,
-            MovieContract.FavoriteEntry._ID
+            DataContract.FavoriteEntry.COLUMN_MOVIE_ID,
+            DataContract.FavoriteEntry._ID
     };
     private int FAVORITES_LOADER = 0;
     private ImageView img_backdrop,img_poster,img_videoThumbnail;
     private TextView tv_plot_overview,tv_title,tv_vote_average,tv_release,tv_genres,tv_cast,tv_videoThumbnailTitle;
     private ImageButton button_fav;
     private final String URL_POSTER_HEADER = "https://image.tmdb.org/t/p/w500";
-    private ArrayList<String> movieList;
+    private Cursor movieInDatabase;
+    public static final String[] mProjection = {
+            DataContract.PopularEntry.COLUMN_MOVIE_TITLE,
+            DataContract.PopularEntry.COLUMN_MOVIE_PLOT,
+            DataContract.PopularEntry.COLUMN_MOVIE_RELEASE_DATE,
+            DataContract.PopularEntry.COLUMN_MOVIE_VOTES,
+            DataContract.PopularEntry.COLUMN_MOVIE_ID,
+            DataContract.PopularEntry.COLUMN_MOVIE_GENRES,
+            DataContract.PopularEntry.COLUMN_MOVIE_THUMBNAIL,
+            DataContract.PopularEntry.COLUMN_BACKDROP,
+            DataContract.PopularEntry.COLUMN_DATE_GENERATED
+    };
+    public static final int COL_PROJ_TITLE = 0;
+    public static final int COL_PROJ_PLOT = 1;
+    public static final int COL_PROJ_RELEASE = 2;
+    public static final int COL_PROJ_VOTES = 3;
+    public static final int COL_PROJ_ID = 4;
+    public static final int COL_PROJ_GENRES = 5;
+    public static final int COL_PROJ_THUMBNAIL = 6;
+    public static final int COL_PROJ_BACKDROP = 7;
+    public static final int COL_PROJ_DATE_GENERATED = 8;
     public DetailFragment(){}
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,9 +76,9 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     public void initialfavoriteDetector(){
         //checks ccvb
         Cursor c = getActivity().getContentResolver().query(
-                MovieContract.FavoriteEntry.CONTENT_URI,
+                DataContract.FavoriteEntry.CONTENT_URI,
                 mProjectionMovieId,
-                MovieContract.FavoriteEntry.COLUMN_MOVIE_ID+"="+movieIdForLoader,
+                DataContract.FavoriteEntry.COLUMN_MOVIE_ID+"="+movieInDatabase.getString(COL_PROJ_ID),
                 null,
                 null);
         if(c.moveToFirst()){
@@ -77,38 +99,65 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         Intent getMovieInfo = getActivity().getIntent();
         //get list passed from intent
         //String order = title,release,vote_average, thumbnail, plot, backdrop,id,genres
-        movieList = getMovieInfo.getStringArrayListExtra("moviedata");
-        movieIdForLoader=movieList.get(6);
+        String idholder = getMovieInfo.getStringExtra("idholder");
+        String sortOrder = getMovieInfo.getStringExtra("sort");
+        String[] args = {idholder};
+        movieInDatabase=null;
+        switch (sortOrder){
+            case "top_rated":
+                movieInDatabase = getActivity().getContentResolver().query(
+                        DataContract.TopRatedEntry.CONTENT_URI, mProjection,
+                        "movieID=?",args,null);
+                break;
+            case "popular":
+                movieInDatabase = getActivity().getContentResolver().query(
+                        DataContract.PopularEntry.CONTENT_URI, mProjection,
+                        "movieID=?",args,null);
+                break;
+            case "upcoming":
+                 movieInDatabase = getActivity().getContentResolver().query(
+                        DataContract.UpcomingEntry.CONTENT_URI, mProjection,
+                         "movieID=?",args,null);
+                break;
+            case "favorites":
+                movieInDatabase = getActivity().getContentResolver().query(
+                        DataContract.FavoriteEntry.CONTENT_URI, mProjection,
+                        "movieID=?",args,null);
+                break;
+        }
+        if(movieInDatabase.moveToFirst()) {
+            String x = movieInDatabase.getString(COL_PROJ_GENRES);
+        }
         viewInstantiator(rootView);
-        fillRootView(movieList);
+        fillRootView();
         return rootView;
     }
 
-    private void fillRootView(ArrayList<String> movieList) {
+    private void fillRootView() {
         //1. Name, 2. Date, 3. Vote average, 4. Poster thumbnail, 5. Plot Analysis, 6. backdrop
         Picasso.with(getActivity())
-                .load(URL_POSTER_HEADER + movieList.get(5))
+                .load(URL_POSTER_HEADER + movieInDatabase.getString(COL_PROJ_BACKDROP))
                 .placeholder(R.drawable.placeholder_red)
                 .error(R.drawable.error_no_img_found)
                 .fit()
                 .into(img_backdrop);
 
         Picasso.with(getActivity())
-                .load(URL_POSTER_HEADER + movieList.get(3))
+                .load(URL_POSTER_HEADER + movieInDatabase.getString(COL_PROJ_THUMBNAIL))
                 .placeholder(R.drawable.placeholder_red)
                 .error(R.drawable.error_no_img_found)
                 .fit()
                 .into(img_poster);
         //plot overview
-        tv_plot_overview.setText(movieList.get(4));
+        tv_plot_overview.setText(movieInDatabase.getString(COL_PROJ_PLOT));
         //movie title
-        tv_title.setText(movieList.get(0));
+        tv_title.setText(movieInDatabase.getString(COL_PROJ_TITLE));
         //vote average
-        tv_vote_average.setText(movieList.get(2));
+        tv_vote_average.setText(movieInDatabase.getString(COL_PROJ_VOTES));
         //release date
-        tv_release.setText(dateFormatter(movieList.get(1)));
+        tv_release.setText(dateFormatter(movieInDatabase.getString(COL_PROJ_RELEASE)));
         //genres
-        tv_genres.setText(movieList.get(7));
+        tv_genres.setText(movieInDatabase.getString(COL_PROJ_GENRES));
     }
 
     //views from rootview
@@ -132,13 +181,13 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             @Override
             public void onClick(View v) {
                 Intent castActivity = new Intent(getActivity(),CastCrewActivity.class);
-                castActivity.putExtra("movie_id",movieList.get(6));
-                castActivity.putExtra("movie_title",movieList.get(0));
+                castActivity.putExtra("movie_id",movieInDatabase.getString(COL_PROJ_ID));
+                castActivity.putExtra("movie_title",movieInDatabase.getString(COL_PROJ_TITLE));
                 startActivity(castActivity);
             }
         });
         Toolbar toolbar = (Toolbar)rootView.findViewById(R.id.toolbar);
-        toolbar.setTitle(movieList.get(0));
+        toolbar.setTitle(movieInDatabase.getString(COL_PROJ_TITLE));
         img_videoThumbnail = (ImageView)rootView.findViewById(R.id.img_trailer_thumbnail);
         tv_videoThumbnailTitle=(TextView)rootView.findViewById(R.id.tv_trailer_thumbnail);
         //fills in star if already favorited
@@ -170,12 +219,12 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
-        Uri uriFavorites = MovieContract.FavoriteEntry.CONTENT_URI;
+        Uri uriFavorites = DataContract.FavoriteEntry.CONTENT_URI;
         return new CursorLoader(
                 getActivity(),
                 uriFavorites,
                 mProjectionMovieId,
-                MovieContract.FavoriteEntry.COLUMN_MOVIE_ID+"="+movieIdForLoader,
+                DataContract.FavoriteEntry.COLUMN_MOVIE_ID+"="+movieInDatabase.getString(COL_PROJ_ID),
                 null,
                 null);
     }
@@ -189,8 +238,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             //makes into bordered fav icon
             isCurrentlyFavorited(false);
             //destroy method
-            int FAV_CONTENT_URI = getContext().getContentResolver().delete(MovieContract.FavoriteEntry.CONTENT_URI,
-                    MovieContract.FavoriteEntry.COLUMN_MOVIE_ID+"="+movieIdForLoader,
+            int FAV_CONTENT_URI = getContext().getContentResolver().delete(DataContract.FavoriteEntry.CONTENT_URI,
+                    DataContract.FavoriteEntry.COLUMN_MOVIE_ID+"="+movieInDatabase.getString(COL_PROJ_ID),
                     null);
             //Destroy to stop an accidental loop!
             getLoaderManager().destroyLoader(FAVORITES_LOADER);
@@ -199,17 +248,18 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             isCurrentlyFavorited(true);
             //Add new value
             ContentValues values = new ContentValues();
-            values.put(MovieContract.FavoriteEntry.COLUMN_MOVIE_TITLE,movieList.get(0));
-            values.put(MovieContract.FavoriteEntry.COLUMN_MOVIE_RELEASE_DATE,movieList.get(1));
-            values.put(MovieContract.FavoriteEntry.COLUMN_MOVIE_VOTES,movieList.get(2));
-            values.put(MovieContract.FavoriteEntry.COLUMN_MOVIE_THUMBNAIL,movieList.get(3));
-            values.put(MovieContract.FavoriteEntry.COLUMN_MOVIE_PLOT,movieList.get(4));
-            values.put(MovieContract.FavoriteEntry.COLUMN_BACKDROP,movieList.get(5));
-            values.put(MovieContract.FavoriteEntry.COLUMN_MOVIE_ID,movieList.get(6));
-            values.put(MovieContract.FavoriteEntry.COLUMN_MOVIE_GENRES,movieList.get(7));
+            values.put(DataContract.FavoriteEntry.COLUMN_MOVIE_TITLE,movieInDatabase.getString(COL_PROJ_TITLE));
+            values.put(DataContract.FavoriteEntry.COLUMN_MOVIE_RELEASE_DATE,movieInDatabase.getString(COL_PROJ_RELEASE));
+            values.put(DataContract.FavoriteEntry.COLUMN_MOVIE_VOTES,movieInDatabase.getString(COL_PROJ_VOTES));
+            values.put(DataContract.FavoriteEntry.COLUMN_MOVIE_THUMBNAIL,movieInDatabase.getString(COL_PROJ_THUMBNAIL));
+            values.put(DataContract.FavoriteEntry.COLUMN_MOVIE_PLOT,movieInDatabase.getString(COL_PROJ_PLOT));
+            values.put(DataContract.FavoriteEntry.COLUMN_BACKDROP,movieInDatabase.getString(COL_PROJ_BACKDROP));
+            values.put(DataContract.FavoriteEntry.COLUMN_MOVIE_ID,movieInDatabase.getString(COL_PROJ_ID));
+            values.put(DataContract.FavoriteEntry.COLUMN_MOVIE_GENRES,movieInDatabase.getString(COL_PROJ_GENRES));
+            values.put(DataContract.FavoriteEntry.COLUMN_DATE_GENERATED,movieInDatabase.getString(COL_PROJ_DATE_GENERATED));
             //insert
             Uri FAV_CONTENT_URI = getContext().getContentResolver().insert(
-                    MovieContract.FavoriteEntry.CONTENT_URI,values
+                    DataContract.FavoriteEntry.CONTENT_URI,values
             );
             //Destroy to stop an accidental loop!
             getLoaderManager().destroyLoader(FAVORITES_LOADER);
