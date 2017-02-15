@@ -27,6 +27,7 @@ public class MovieCursorAdapter extends CursorAdapter {
     public final int COLUMN_PROJ_MOVIE_POSTER=3;
 
     public class ViewHolder {
+        //View holder to not constantly use findviewbyid
         private ImageView imgGridPosterImage;
         private TextView tvGridTitle;
 
@@ -44,13 +45,16 @@ public class MovieCursorAdapter extends CursorAdapter {
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         View view = LayoutInflater.from(context).inflate(R.layout.grid_image_and_textview, parent, false);
         MovieCursorAdapter.ViewHolder viewHolder = new MovieCursorAdapter.ViewHolder(view);
+        //tag the view to be retrieved in bindview
         view.setTag(viewHolder);
         return view;
     }
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
+        //Retrieve the tagged holder
         MovieCursorAdapter.ViewHolder viewHolder = (MovieCursorAdapter.ViewHolder) view.getTag();
+        //Grid view setup
         String title = cursor.getString(COLUMN_PROJ_MOVIE_TITLE);
         String thumbnail = cursor.getString(COLUMN_PROJ_MOVIE_POSTER);
         viewHolder.tvGridTitle.setText(title);

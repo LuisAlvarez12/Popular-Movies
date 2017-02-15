@@ -209,34 +209,41 @@
 
         </LinearLayout>
 
-            <LinearLayout
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:elevation="@dimen/margin_standard_and_elev"
+            android:background="@drawable/white_rounded_corners"
+            android:layout_margin="@dimen/margin_standard_and_elev"
+            android:layout_height="wrap_content">
+
+            <TextView
                 android:layout_width="match_parent"
-                android:orientation="vertical"
-                android:elevation="@dimen/margin_standard_and_elev"
-                android:background="@drawable/white_rounded_corners"
-                android:layout_margin="@dimen/margin_standard_and_elev"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="@dimen/tv_standard_high_size"
+                android:text="@string/trailers"
+                />
+            <HorizontalScrollView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textSize="@dimen/tv_standard_high_size"
-                    android:text="@string/trailers"
-                    />
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/img_trailer_thumbnail"
-                    android:layout_margin="@dimen/margin_standard_and_elev"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:id="@+id/tv_trailer_thumbnail"
-                    android:textSize="@dimen/tv_paragraph_size"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:id="@+id/linear_layout_horizontal_scroll_videos">
 
-            </LinearLayout>
+                </LinearLayout>
+            </HorizontalScrollView>
+        </LinearLayout>
+
+
+
+
+
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -253,8 +260,22 @@
                     android:textSize="@dimen/tv_standard_high_size"
                     android:text="@string/reviews"
                     />
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:id="@+id/linear_layout_horizontal_scroll">
+
+                    </LinearLayout>
+                </HorizontalScrollView>
             </LinearLayout>
+
+
+
 
         </LinearLayout>
 

@@ -55,6 +55,29 @@
     <string name="month_oct" translatable="true">October</string>
     <string name="month_nov" translatable="true">November</string>
     <string name="month_dec" translatable="true">December</string>
+    <string name="horizontal_scroll_text_size_large">15f</string>
+    <string name="horizontal_scroll_text_size_small">10f</string>
+    <string name="param_builder_videos">/reviews?</string>
+    <string name="param_builder_reviews">/videos?</string>
+
+    <string name="json_video_getter_key">key</string>
+
+    <string name="json_video_getter_id">id</string>
+    <string name="json_video_getter_author">author</string>
+    <string name="json_video_getter_content">content</string>
+
+    <string name="url_language">language</string>
+    <string name="url_page">page</string>
+    <string name="url_key">api_key</string>
+    <string name="json_video_getter_character">character</string>
+    <string name="json_video_getter_job">job</string>
+    <string name="json_video_getter_profile">profile_path</string>
+
+    <string name="json_video_getter_name">name</string>
+
+    <string name="fillhorizontal_full_review">Click to view full review</string>
+    <string name="fillhorizontal_by_author">By </string>
+
 
 
 </resources>

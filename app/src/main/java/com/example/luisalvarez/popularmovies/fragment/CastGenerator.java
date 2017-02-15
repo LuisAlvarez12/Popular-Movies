@@ -31,6 +31,8 @@ import org.json.JSONObject;
 import java.util.Arrays;
 import java.util.List;
 
+import static android.R.attr.name;
+
 /**
  * Created by luisalvarez on 1/20/17.
  * Cast generator will provide and inflate the list of cast and crew for movie that was shown in detailActivity
@@ -58,7 +60,7 @@ public class CastGenerator extends android.support.v4.app.Fragment {
         getActivity().setTitle(getIntent.getStringExtra("movie_title"));
 
         final String URL_BASE = "https://api.themoviedb.org/3/movie/" + movieID + "/credits?";
-        final String URL_KEY = "api_key";
+        final String URL_KEY = getActivity().getResources().getString(R.string.url_key);
         //Built URI to append queries correctly
         Uri builtUri = Uri.parse(URL_BASE).buildUpon()
                 .appendQueryParameter(URL_KEY, BuildConfig.Movie_DB_key)
@@ -78,10 +80,10 @@ public class CastGenerator extends android.support.v4.app.Fragment {
                 public void onResponse(JSONObject response) {
                         //array keys
                         String[] resultJsonArray;
-                        final String JSON_GET_CAST_NAME = "name";
-                        final String JSON_GET_CAST_CHAR = "character";
-                        final String JSON_GET_CAST_JOB = "job";
-                        final String JSON_GET_CAST_PROFILE_PATH = "profile_path";
+                        final String JSON_GET_CAST_NAME = getActivity().getResources().getString(R.string.json_video_getter_name);
+                        final String JSON_GET_CAST_CHAR = getActivity().getResources().getString(R.string.json_video_getter_character);;
+                        final String JSON_GET_CAST_JOB = getActivity().getResources().getString(R.string.json_video_getter_job);
+                        final String JSON_GET_CAST_PROFILE_PATH = getActivity().getResources().getString(R.string.json_video_getter_profile);;
 
                         try {
                             JSONArray jsonCastJSONArray = response.getJSONArray("cast");
@@ -127,7 +129,6 @@ public class CastGenerator extends android.support.v4.app.Fragment {
 
         Activity c;
         private String[] castInfo;
-
         public CastListAdapter(Activity context, int resource,String[] s) {
             super(context, R.layout.listview_item_layout,s);
             this.c=context;

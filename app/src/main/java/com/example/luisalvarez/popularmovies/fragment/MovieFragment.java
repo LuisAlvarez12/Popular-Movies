@@ -45,9 +45,7 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
 
     private GridView posterGrid;
     private RequestQueue requestQueue;
-    final String URL_LANGUAGE = "language";
-    final String URL_PAGE = "page";
-    final String URL_KEY = "api_key";
+
     String sortOrder;
 
     String[] mProjectionTopRated = {
@@ -73,15 +71,11 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
             DataContract.UpcomingEntry._ID
     };
 
-
-
     public final int COLUMN_PROJ_MOVIE_ID = 0;
     public final int COLUMN_PROJ_DATE = 1;
     public final int COLUMN_PROJ_MOVIE_TITLE = 2;
     public final int COLUMN_PROJ_MOVIE_POSTER=3;
-
     private int MOVIE_LOADER = 0;
-
     private MovieCursorAdapter mMovieAdapter;
 
     public MovieFragment() {}
@@ -91,6 +85,7 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
     }
 
     private void dateChecker(){
+        //Check cursor to make sure all dates are up to date
         Cursor cursorTopRated = getActivity()
                 .getContentResolver()
                 .query(DataContract.TopRatedEntry.CONTENT_URI,
@@ -112,10 +107,13 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
                         null,
                         null,
                         null);
-
+       //check tables if they are valid, if not fetch the data
         if (cursorTopRated.moveToFirst() && cursorPopular.moveToFirst() && cursorUpcoming.moveToFirst()){
            DateFormat df = new SimpleDateFormat("ddMMyyyy");
             String date = df.format(Calendar.getInstance().getTime());
+            //Compare the date to the dates found in the cursors.
+            //if out of date, delete tables and fetch data
+            //if date is current. call the loader to swap the cursor in the grid layout
             if (date.equals(cursorPopular.getString(COLUMN_PROJ_DATE)) && date.equals(cursorUpcoming.getString(COLUMN_PROJ_DATE))
                      && date.equals(cursorTopRated.getString(COLUMN_PROJ_DATE))){
                 callLoader();
@@ -123,6 +121,7 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
                 getActivity().getContentResolver().delete(DataContract.PopularEntry.CONTENT_URI,null,null);
                 getActivity().getContentResolver().delete(DataContract.TopRatedEntry.CONTENT_URI,null,null);
                 getActivity().getContentResolver().delete(DataContract.UpcomingEntry.CONTENT_URI,null,null);
+                continueToFetchData();
             }
         }else{
             continueToFetchData();
@@ -131,6 +130,10 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
     }
 
     private void continueToFetchData() {
+        final String URL_LANGUAGE = getResources().getString(R.string.url_language);
+        final String URL_PAGE = getResources().getString(R.string.url_page);
+        final String URL_KEY= getResources().getString(R.string.url_key);
+        //call the json to fill the tables
         final String URL_BASE = "https://api.themoviedb.org/3/movie/"+sortOrder+"?";
         Uri builtUri = Uri.parse(URL_BASE).buildUpon()
                 .appendQueryParameter(URL_KEY, BuildConfig.Movie_DB_key)
@@ -148,8 +151,11 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
         posterGrid = (GridView)rootView.findViewById(R.id.grid_movie_layout);
         mMovieAdapter = new MovieCursorAdapter(getActivity(),null,0);
         posterGrid.setAdapter(mMovieAdapter);
+        //get sortOrder argument found in viewFragmentPageAdapter
         getBundle(getArguments());
+        //Check the date, and fetch data if tables are out of sync or nonexistant
         dateChecker();
+        //call the loader to be swapped in the grid layout
         callLoader();
         posterGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -164,12 +170,14 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
         return rootView;
     }
 
+    //sortorder argument
     private void getBundle(Bundle b){
         if(b!=null){
             sortOrder=b.getString("sortOrder");
         }
     }
 
+    //convert genres to a single string from an array with the correct labels
     private String genreKeytoName(String x){
         switch(x){
             case "28":x=getString(R.string.genre_action);break;case "12":x=getString(R.string.genre_adventure);break;case "16":x=getString(R.string.genre_animation);break;
@@ -281,19 +289,11 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
                                             resultJsonToCursor
                                     );
                             break;
-                        case "upcoming":
-                            bulk = getActivity()
-                                    .getContentResolver()
-                                    .bulkInsert(
-                                            DataContract.UpcomingEntry.CONTENT_URI,
-                                            resultJsonToCursor
-                                    );
-                            break;
                         default:
                             bulk = getActivity()
                                     .getContentResolver()
                                     .bulkInsert(
-                                            DataContract.PopularEntry.CONTENT_URI,
+                                            DataContract.UpcomingEntry.CONTENT_URI,
                                             resultJsonToCursor
                                     );
                             break;
@@ -338,15 +338,8 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
                         null,
                         null,
                         null);
-            case "favorites":
-                uri = DataContract.FavoriteEntry.CONTENT_URI;
-                return new CursorLoader(getActivity(),
-                        uri,
-                        mProjectionUpcoming,
-                        null,
-                        null,
-                        null);
             default:
+                uri = DataContract.FavoriteEntry.CONTENT_URI;
                 return new CursorLoader(getActivity(),
                         uri,
                         mProjectionUpcoming,

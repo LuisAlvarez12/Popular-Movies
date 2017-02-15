@@ -13,6 +13,7 @@ public class MainActivity extends AppCompatActivity  {
 
     private SlidingTabLayout tabLayout;
     private ViewPager viewPager;
+    //Sliding tab names
     private CharSequence[] mTitles = {
             "Popular Now"
             ,"Top Rated"
