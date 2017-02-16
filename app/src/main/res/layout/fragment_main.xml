@@ -13,6 +13,17 @@
         android:numColumns="2"
         android:id="@+id/grid_movie_layout" />
 
+    <!--<GridView-->
+        <!--android:id="@+id/grid"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:numColumns="auto_fit"-->
+        <!--android:columnWidth="100dp"-->
+        <!--android:verticalSpacing="6dp"-->
+        <!--android:horizontalSpacing="6dp"-->
+        <!--android:padding="6dp"-->
+        <!--android:drawSelectorOnTop="true" />-->
+
 
 
 </LinearLayout>

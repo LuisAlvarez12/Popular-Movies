@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -25,6 +26,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.luisalvarez.popularmovies.BuildConfig;
 import com.example.luisalvarez.popularmovies.DetailActivity;
+import com.example.luisalvarez.popularmovies.MainActivity;
 import com.example.luisalvarez.popularmovies.data.DataContract;
 import com.example.luisalvarez.popularmovies.R;
 import com.example.luisalvarez.popularmovies.view.MovieCursorAdapter;
@@ -45,7 +47,7 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
 
     private GridView posterGrid;
     private RequestQueue requestQueue;
-
+    private String MOVIETAG = "movie";
     String sortOrder;
 
     String[] mProjectionTopRated = {
@@ -147,7 +149,7 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         posterGrid = (GridView)rootView.findViewById(R.id.grid_movie_layout);
         mMovieAdapter = new MovieCursorAdapter(getActivity(),null,0);
         posterGrid.setAdapter(mMovieAdapter);
@@ -160,11 +162,26 @@ public class MovieFragment extends Fragment implements LoaderManager.LoaderCallb
         posterGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), DetailActivity.class);
-                Cursor cursor = (Cursor)parent.getItemAtPosition(position);
-                intent.putExtra("idholder",cursor.getString(COLUMN_PROJ_MOVIE_ID));
-                intent.putExtra("sort",sortOrder);
-                startActivity(intent);
+                if(getArguments().getBoolean("twopane")){
+                    Log.d("layout","true");
+                    Bundle args = new Bundle();
+                    Cursor cursor = (Cursor)parent.getItemAtPosition(position);
+                    args.putString("sort",sortOrder);
+                    Log.d("layout","sort is " + sortOrder);
+                    args.putString("idholder",cursor.getString(COLUMN_PROJ_MOVIE_ID));
+                    DetailFragment fragment = new DetailFragment();
+                    fragment.setArguments(args);
+                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                    transaction.replace(R.id.movie_two_pane,fragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }else {
+                    Intent intent = new Intent(getActivity(), DetailActivity.class);
+                    Cursor cursor = (Cursor) parent.getItemAtPosition(position);
+                    intent.putExtra("idholder", cursor.getString(COLUMN_PROJ_MOVIE_ID));
+                    intent.putExtra("sort", sortOrder);
+                    startActivity(intent);
+                }
             }
         });
         return rootView;

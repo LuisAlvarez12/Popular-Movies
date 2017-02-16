@@ -97,9 +97,21 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
-        Intent getMovieInfo = getActivity().getIntent();
-        String idholder = getMovieInfo.getStringExtra("idholder");
-        String sortOrder = getMovieInfo.getStringExtra("sort");
+        String idholder;
+        String sortOrder;
+        Log.d("layout", "created view");
+        if(getArguments().getString("sort")!=null){
+            Log.d("layout", "rootview found");
+             idholder = this.getArguments().getString("idholder");
+             sortOrder = this.getArguments().getString("sort");
+            Log.d("layout",sortOrder);
+        }else{
+            Log.d("layout", "else");
+            Intent getMovieInfo = getActivity().getIntent();
+             idholder = getMovieInfo.getStringExtra("idholder");
+             sortOrder = getMovieInfo.getStringExtra("sort");
+        }
+
         String[] args = {idholder};
         determineOriginTable(sortOrder, args);
         final String URL_KEY = getActivity().getResources().getString(R.string.url_key);
