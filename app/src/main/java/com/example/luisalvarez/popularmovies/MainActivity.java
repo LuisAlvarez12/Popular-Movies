@@ -100,8 +100,15 @@ public class MainActivity extends AppCompatActivity  {
                         }
                     }
                 }
-            });
 
+            });
+            Bundle args =new Bundle();
+            args.putString("sortOrder", list.get(0));
+            MovieFragment fragment = new MovieFragment();
+            fragment.setArguments(args);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.movie_two_pane, fragment, MOVIETAG)
+                    .commit();
 //            if (savedInstanceState == null) {
 //                getSupportFragmentManager().beginTransaction()
 //                        .replace(R.id.movie_two_pane, fragment, MOVIETAG)
